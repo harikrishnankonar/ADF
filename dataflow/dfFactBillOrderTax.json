@@ -1,0 +1,31 @@
+{
+	"name": "dfFactBillOrderTax",
+	"properties": {
+		"folder": {
+			"name": "POS Transaction"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsdwsourcedb",
+						"type": "DatasetReference"
+					},
+					"name": "dsFactBillOrderTax"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "FactBillOrderTax_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "FactBillOrderTax"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tBillOrderTaxID as integer,\n\t\tPOSID as integer,\n\t\tPropertyID as integer,\n\t\tRegionID as integer,\n\t\tBrandID as integer,\n\t\tCountryID as integer,\n\t\tBillDateID as integer,\n\t\tMenuItemID as integer,\n\t\tMenuHeadID as integer,\n\t\tIncomeHeadID as integer,\n\t\tCostCenterID as integer,\n\t\tTaxID as integer,\n\t\tTaxAmount as decimal(38,8),\n\t\tTaxableAmount as decimal(38,8),\n\t\tBillID as integer,\n\t\tBillMade_POSShiftId as integer,\n\t\tBillSettled_POSShiftId as integer,\n\t\tOverCounterSalesID as integer,\n\t\tUserID as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select isnull(t1.BillOrderTaxId,0) BillOrderTaxID,\\n\tisnull(t2.POSID,0) POSID,\\n\tisnull(t3.PropertyID,0) PropertyID,\\n\tisnull(t4.RegionID,0) RegionID,\\n\tisnull(t5.BrandID,0) BrandID,\\n\tisnull(t6.CountryID,0) CountryID,\\n\tisnull(t7.DateTimeID,0) BillDateID,\\n\tisnull(t8.MenuItemID,0) MenuItemID,\\n\tisnull(t9.MenuHeadID,0) MenuHeadID,\\n\tisnull(t10.IncomeHeadID,0) IncomeHeadID,\\n\tisnull(t11.CostCenterID,0) CostCenterID,\\n\tisnull(t12.TaxID,0) TaxID,\\n\tisnull(t1.TaxAmount,0) TaxAmount,\\n\tisnull(t1.TaxableAmount,0) TaxableAmount,\\n\tisnull(t13.DimBillNoID,0) as BillID,\\n\tISNULL(T14.BillMadeShift,0) as BillMade_POSShiftId,\\n\tISNULL(T14.BillSettledShift,0) as BillSettled_POSShiftId ,\\n\tisnull(t17.OverCounterSalesId,0) OverCounterSalesID,\\n\tisnull(t18.UserID,0) as UserID\\nFrom DimBillOrderTax t1 with(nolock)\\nleft outer join DimPosMst t2 with(nolock) on t1.POSCode = t2.POSCode\\nleft outer join DimPropertyMst t3 with(nolock) on t1.PropertyCode = t3.PropertyCode\\nleft outer join DimRegionMst t4 with(nolock) on t1.RegionCode = t4.RegionCode\\nleft outer join DimBrandMst t5 with(nolock) on t1.BrandCode = t5.BrandCode\\nleft outer join DimCountryMst t6 with(nolock) on t1.CountryCode = t6.CountryCode\\nleft outer join DimDateTime t7 with(nolock) on t1.BillDateTime = t7.CDate\\nleft outer join DimMenuItemMst t8 with(nolock) on t1.MenuItemCode = t8.MenuItemCode\\nleft outer join DimMenuHeadMst t9 with(nolock) on t1.MenuHeadCode = t9.MenuHeadCode and t1.poscode = t9.poscode\\nleft outer join DimIncomeHeadMst t10 with(nolock) on t1.IncomeHeadCode = t10.IncomeHeadCode\\nleft outer join DimCostCenterMst t11 with(nolock) on t1.CostCenterCode = t11.CostCenterCode\\nleft outer join DimTaxMst t12 with(nolock) on t1.TaxCode = t12.TaxCode\\nleft outer join DimBillNo t13 with(nolock) on t1.POSCode = t13.PosCode and t1.BillNo = t13.BillNo\\nleft outer join DimBillOrderHead t14 with(nolock) on T1.POSCode = t14.POSCode and T1.BillNo = t14.BillNo\\nLEFT OUTER JOIN OverCounterSalesMaster t17 with(nolock) on t14.OverCounter = t17.OverCounterSalesCode\\nLEFT OUTER JOIN DimUser t18 with(nolock) on t14.BillSettledBy = t18.UserShortName',\n\tformat: 'query') ~> dsFactBillOrderTax\ndsFactBillOrderTax sink(input(\n\t\tFactBillOrderTaxID as integer,\n\t\tPOSID as integer,\n\t\tPropertyID as integer,\n\t\tRegionID as integer,\n\t\tBrandID as integer,\n\t\tCountryID as integer,\n\t\tBillID as integer,\n\t\tBillDateID as integer,\n\t\tMenuItemID as integer,\n\t\tMenuHeadID as integer,\n\t\tCostCenterID as integer,\n\t\tIncomeHeadID as integer,\n\t\tTaxID as integer,\n\t\tTaxAmount as decimal(38,8),\n\t\tTaxableAmount as decimal(38,8),\n\t\tPosRegionID as integer,\n\t\tBillOrderTaxID as integer,\n\t\tBillSettled_POSShiftId as integer,\n\t\tBillMade_POSShiftId as integer,\n\t\tOverCounterSalesID as integer,\n\t\tUserId as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tmapColumn(\n\t\tPOSID,\n\t\tPropertyID,\n\t\tRegionID,\n\t\tBrandID,\n\t\tCountryID,\n\t\tBillID,\n\t\tBillDateID,\n\t\tMenuItemID,\n\t\tMenuHeadID,\n\t\tCostCenterID,\n\t\tIncomeHeadID,\n\t\tTaxID,\n\t\tTaxAmount,\n\t\tTaxableAmount,\n\t\tBillOrderTaxID,\n\t\tBillSettled_POSShiftId,\n\t\tBillMade_POSShiftId,\n\t\tOverCounterSalesID,\n\t\tUserId = UserID\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> FactBillOrderTax"
+		}
+	}
+}

@@ -1,0 +1,35 @@
+{
+	"name": "dfbotstatusmaster",
+	"properties": {
+		"folder": {
+			"name": "BOT Master"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsdwsbotourcedb",
+						"type": "DatasetReference"
+					},
+					"name": "dsbotstatusmst"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimStatusMst_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimStatusMst"
+				}
+			],
+			"transformations": [
+				{
+					"name": "arbotstatusmst"
+				}
+			],
+			"script": "source(output(\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tStatusID as integer,\n\t\tDesc as string,\n\t\tStatusGroup as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select \\'002\\'as GroupId, \\'000\\' as ClientId, \\nStatusID,[Desc],StatusGroup from TblBOTReservationStatus with (nolock)',\n\tformat: 'query') ~> dsbotstatusmst\ndsbotstatusmst alterRow(upsertIf(true())) ~> arbotstatusmst\narbotstatusmst sink(input(\n\t\tDimStatusID as integer,\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tStatusID as integer,\n\t\tDesc as string,\n\t\tStatusGroup as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['StatusID'],\n\tformat: 'table',\n\tmapColumn(\n\t\tGroupId,\n\t\tClientId,\n\t\tStatusID,\n\t\tDesc,\n\t\tStatusGroup\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimStatusMst"
+		}
+	}
+}

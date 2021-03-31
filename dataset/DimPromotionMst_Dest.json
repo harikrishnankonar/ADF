@@ -1,0 +1,59 @@
+{
+	"name": "DimPromotionMst_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "DimPromotionMstID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			},
+			{
+				"name": "PromotionCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POSCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PromotionName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DiscountinPer",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "DiscountAmt",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimPromotionMst"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

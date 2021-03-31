@@ -1,0 +1,31 @@
+{
+	"name": "dfFactBillOrdercollection",
+	"properties": {
+		"folder": {
+			"name": "POS Transaction"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsdwsourcedb",
+						"type": "DatasetReference"
+					},
+					"name": "dsFactBillOrderCollection"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "FactBillOrderCollection_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "FactBillOrderCollection"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tBillOrderCollectionID as integer,\n\t\tPOSID as integer,\n\t\tPropertyID as integer,\n\t\tRegionID as integer,\n\t\tBrandID as integer,\n\t\tCountryID as integer,\n\t\tBillID as integer,\n\t\tBillDateID as integer,\n\t\tPaymentModeID as integer,\n\t\tCollectionAmount as decimal(38,8),\n\t\tCollectionTip as decimal(38,8),\n\t\tCollectionReturn as decimal(38,8),\n\t\tPaymentSubTypeID as integer,\n\t\tBillMade_POSShiftId as integer,\n\t\tBillSettled_POSShiftId as integer,\n\t\tOverCounterSalesID as integer,\n\t\tUserID as integer,\n\t\tComplimentID as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select \\n    isnull(t1.BillOrderCollectionID,0) BillOrderCollectionID,\\n\tisnull(t2.POSID,0) POSID,\\n\tisnull(t3.PropertyID,0) PropertyID,\\n\tisnull(t4.RegionID,0) RegionID,\\n\tisnull(t5.BrandID,0) BrandID,\\n\tisnull(t6.CountryID,0) CountryID,\\n\tisnull(t8.DimBillNoID,0) BillID,\\n\tisnull(t7.DateTimeID,0) BillDateID,\\n\tisnull(t9.PaymentModeID,0) PaymentModeID,\\n\tisnull(t1.CollectionAmount,0) CollectionAmount,\\n\tisnull(t1.CollectionTip,0) CollectionTip,\\n\tisnull(t1.CollectionReturn,0) CollectionReturn,\\n\tisnull(t10.DimPaymentSubTypeID,0) PaymentSubTypeID,\\n\tISNULL(T11.BillMadeShift,0) as BillMade_POSShiftId,\\n\tISNULL(T11.BillSettledShift,0) as BillSettled_POSShiftId ,\\n\tisnull(t15.OverCounterSalesId,0) OverCounterSalesID,\\n\tisnull(t14.UserID,0) UserID,\\n\tCASE WHEN t11.PayCompliment = 1 THEN 1 ELSE 0 END AS ComplimentID\t\\nFrom DimBillOrderCollection t1 with(nolock)\\nleft outer join DimPosMst t2 with(nolock) on t1.POSCode = t2.POSCode\\nleft outer join DimPropertyMst t3 with(nolock) on t1.PropertyCode = t3.PropertyCode\\nleft outer join DimRegionMst t4 with(nolock) on t1.RegionCode = t4.RegionCode\\nleft outer join DimBrandMst t5 with(nolock) on t1.BrandCode = t5.BrandCode\\nleft outer join DimCountryMst t6 with(nolock) on t1.CountryCode = t6.CountryCode\\nleft outer join DimDateTime t7 with(nolock) on t1.BillDateTime = t7.CDate\\nleft outer join DimBillNo t8 with(nolock) on t1.POSCode = t8.PosCode and t1.BillNo = t8.BillNo\\nleft outer join DimPaymentModeMst t9 with(nolock) on t1.PaymentModeCode = t9.PaymentModeCode\\nleft outer join DimPaymentSubType t10 with(nolock) on t1.PaymentModeCode = t10.PaymentMode and t1.PaymentCode = t10.PaySubTypeCode \\nleft outer join DimBillOrderHead t11 with(nolock) on T1.POSCode = t11.POSCode and T1.BillNo = T11.BillNo\\nleft outer join OverCounterSalesMaster t15 with(nolock) on t11.OverCounter = t15.OverCounterSalesCode\\nleft outer join DimUser t14 with(nolock) on t11.BillSettledBy = t14.UserShortName\\n',\n\tformat: 'query') ~> dsFactBillOrderCollection\ndsFactBillOrderCollection sink(input(\n\t\tFactBillOrderCollectionID as integer,\n\t\tPOSID as integer,\n\t\tPropertyID as integer,\n\t\tRegionID as integer,\n\t\tBrandID as integer,\n\t\tCountryID as integer,\n\t\tBillID as integer,\n\t\tBillDateID as integer,\n\t\tPaymentModeID as integer,\n\t\tPaymentSubTypeID as integer,\n\t\tCollectionAmount as decimal(38,8),\n\t\tCollectionTip as decimal(38,8),\n\t\tCollectionReturn as decimal(38,8),\n\t\tPosRegionID as integer,\n\t\tOverCounterSalesID as integer,\n\t\tUserId as integer,\n\t\tBillOrderCollectionID as integer,\n\t\tBillSettled_POSShiftId as integer,\n\t\tBillMade_POSShiftId as integer,\n\t\tComplimentID as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tmapColumn(\n\t\tPOSID,\n\t\tPropertyID,\n\t\tRegionID,\n\t\tBrandID,\n\t\tCountryID,\n\t\tBillID,\n\t\tBillDateID,\n\t\tPaymentModeID,\n\t\tPaymentSubTypeID,\n\t\tCollectionAmount,\n\t\tCollectionTip,\n\t\tCollectionReturn,\n\t\tOverCounterSalesID,\n\t\tUserId = UserID,\n\t\tBillOrderCollectionID,\n\t\tBillSettled_POSShiftId,\n\t\tBillMade_POSShiftId,\n\t\tComplimentID\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> FactBillOrderCollection"
+		}
+	}
+}

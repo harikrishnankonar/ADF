@@ -1,0 +1,274 @@
+{
+	"name": "DimBillOrderDetail_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "BillOrderDetailID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			},
+			{
+				"name": "POSCode",
+				"type": "nchar"
+			},
+			{
+				"name": "PropertyCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "RegionCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BrandCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CountryCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BillOrder",
+				"type": "char"
+			},
+			{
+				"name": "BillNo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BillDateTime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "SerialNo",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "MenuItemCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TDHCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TDHNo",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "TDHSerialNo",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IncomeHeadCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Quantity",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "CostCenterCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "MenuHeadCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "MenuGroupCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "MenuSubGroupCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CourseCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FreeQuantity",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "Rate",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "OriginalRate",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "BackwardRate",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "Cost",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "Discount",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "DiscountType",
+				"type": "nchar"
+			},
+			{
+				"name": "ModifierRate",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "CalcDiscount",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "NetAmount",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "TaxOnCost",
+				"type": "bit"
+			},
+			{
+				"name": "HappyHour",
+				"type": "bit"
+			},
+			{
+				"name": "RateCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SpecialRateCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ItemTotalTax",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 10
+			},
+			{
+				"name": "VoidReasonCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "VoidType",
+				"type": "char"
+			},
+			{
+				"name": "CategoryCode",
+				"type": "varchar"
+			},
+			{
+				"name": "PayCompliment",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ReservationNo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DiscountAfterPromotion",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DiscCardCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DiscCardDetailsCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PriceCategoryCode",
+				"type": "varchar"
+			},
+			{
+				"name": "FlavorSizeCode",
+				"type": "varchar"
+			},
+			{
+				"name": "kioskcode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ShiftCode",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimBillOrderDetail"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

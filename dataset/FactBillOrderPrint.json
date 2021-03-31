@@ -1,0 +1,137 @@
+{
+	"name": "FactBillOrderPrint",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "FactBillOrderPrintId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DimBillOrderPrintId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POSId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PropertyId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "RegionId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BrandId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CountryId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BillKOTTypeId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BillNo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PrintDateId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PrintedAmount",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 8
+			},
+			{
+				"name": "IsVoidId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IsNcBillId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CreatedById",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CreatedDateId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PrintCount",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "OptionID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BillSettledById",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BillSettleDateId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BillDateId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PaymentModeID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CollectionAmount",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 8
+			},
+			{
+				"name": "LinkBillDateId",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "FactBillOrderPrint"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

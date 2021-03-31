@@ -1,0 +1,42 @@
+{
+	"name": "DimOverCounterSalesMst_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "OverCounterSalesId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "OverCounterSalesCode",
+				"type": "char"
+			},
+			{
+				"name": "OverCounterSalesDesc",
+				"type": "varchar"
+			},
+			{
+				"name": "IsActive",
+				"type": "bit"
+			},
+			{
+				"name": "OptionNeumonic",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "OverCounterSalesMaster"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

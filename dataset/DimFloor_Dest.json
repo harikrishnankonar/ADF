@@ -1,0 +1,47 @@
+{
+	"name": "DimFloor_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "DimFloorID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			},
+			{
+				"name": "FloorID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Floor",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ImagePath",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimFloor"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

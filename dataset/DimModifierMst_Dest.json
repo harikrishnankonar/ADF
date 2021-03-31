@@ -1,0 +1,47 @@
+{
+	"name": "DimModifierMst_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ModifierID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			},
+			{
+				"name": "POSCode",
+				"type": "nchar"
+			},
+			{
+				"name": "ModifierCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ModifierDescription",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimModifierMst"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

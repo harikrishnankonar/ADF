@@ -1,0 +1,42 @@
+{
+	"name": "DimOptionMst_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "OptionID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			},
+			{
+				"name": "OptionNeumonic",
+				"type": "char"
+			},
+			{
+				"name": "OptionName",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "OptionsMaster"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,576 @@
+{
+	"name": "DimBillOrderHead_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "BillOrderHeadID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			},
+			{
+				"name": "POSCode",
+				"type": "nchar"
+			},
+			{
+				"name": "PropertyCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "RegionCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BrandCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CountryCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BillOrder",
+				"type": "char"
+			},
+			{
+				"name": "ParentBillNo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BillNo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BillAmount",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "BillMadeDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "BillMadeTime",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BillDateTime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "BillTime",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SettleDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "SettleTime",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Pax",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "TableRoomCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "KOTType",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NCType",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SubCompType",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "EmployeeCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BillStatus",
+				"type": "nchar"
+			},
+			{
+				"name": "KOTStyle",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BillMadeBy",
+				"type": "nchar"
+			},
+			{
+				"name": "BillSettledBy",
+				"type": "nchar"
+			},
+			{
+				"name": "BillMadeShift",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BillSettledShift",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BackwardIndicator",
+				"type": "nchar"
+			},
+			{
+				"name": "TotalTax",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "StaffCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AuthBy",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TotalDiscount",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "RoundOffAmount",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "PayCash",
+				"type": "bit"
+			},
+			{
+				"name": "PayCreditCard",
+				"type": "bit"
+			},
+			{
+				"name": "PayDebitCard",
+				"type": "bit"
+			},
+			{
+				"name": "PayForeign",
+				"type": "bit"
+			},
+			{
+				"name": "PayCheque",
+				"type": "bit"
+			},
+			{
+				"name": "PayMember",
+				"type": "bit"
+			},
+			{
+				"name": "PayCLP",
+				"type": "bit"
+			},
+			{
+				"name": "PayParty",
+				"type": "bit"
+			},
+			{
+				"name": "PayGV",
+				"type": "bit"
+			},
+			{
+				"name": "PayCoupon",
+				"type": "bit"
+			},
+			{
+				"name": "PayRoom",
+				"type": "bit"
+			},
+			{
+				"name": "PayStaff",
+				"type": "bit"
+			},
+			{
+				"name": "PayCompliment",
+				"type": "bit"
+			},
+			{
+				"name": "PayTransOut",
+				"type": "bit"
+			},
+			{
+				"name": "PayCashAmount",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "CashTipAmount",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "CashReturnAmount",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "OverCounter",
+				"type": "nchar"
+			},
+			{
+				"name": "Diplomat",
+				"type": "nchar"
+			},
+			{
+				"name": "Complimentory",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "ComplimentoryType",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ComplimentorySubType",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ComplimentoryRemark",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Paymode",
+				"type": "nchar"
+			},
+			{
+				"name": "PaymodeKeyCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PaymodeDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PartyCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PartyName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PermitNo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PermitHolder",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ExpiryDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "Resident",
+				"type": "bit"
+			},
+			{
+				"name": "FABR",
+				"type": "bit"
+			},
+			{
+				"name": "THV",
+				"type": "bit"
+			},
+			{
+				"name": "POSCodeTo",
+				"type": "nchar"
+			},
+			{
+				"name": "ReasonCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DiscCardCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DiscCardDetailsCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CustomerName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DiscountRemark",
+				"type": "nvarchar"
+			},
+			{
+				"name": "WaiterCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "GeneralRemark",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RoomNo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "GuestName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RegistrationNo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ISSplit",
+				"type": "bit"
+			},
+			{
+				"name": "VoucherNo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DineInOut",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "OrderFrom",
+				"type": "nvarchar"
+			},
+			{
+				"name": "OptionNeumonic",
+				"type": "varchar"
+			},
+			{
+				"name": "RptOptionNeumonic",
+				"type": "nvarchar"
+			},
+			{
+				"name": "UpdFrm",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MemberShipCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MemberCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MemberName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IntOrExt",
+				"type": "bit"
+			},
+			{
+				"name": "DiplomatID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DiscountCardNo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AdditionalCharge",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 8
+			},
+			{
+				"name": "AdditionalChargeCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AdditionalChargeDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AdvanceAdjustedAmount",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "VoidReasonCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "VoidType",
+				"type": "char"
+			},
+			{
+				"name": "TotalTipAmount",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "CustomerCode",
+				"type": "varchar"
+			},
+			{
+				"name": "Address1",
+				"type": "varchar"
+			},
+			{
+				"name": "Address2",
+				"type": "varchar"
+			},
+			{
+				"name": "Telephone1",
+				"type": "varchar"
+			},
+			{
+				"name": "Telephone2",
+				"type": "varchar"
+			},
+			{
+				"name": "Mobile1",
+				"type": "varchar"
+			},
+			{
+				"name": "Mobile2",
+				"type": "varchar"
+			},
+			{
+				"name": "reservationNo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "GSTINNumber",
+				"type": "varchar"
+			},
+			{
+				"name": "GSTCustName",
+				"type": "varchar"
+			},
+			{
+				"name": "GSTCustAddress",
+				"type": "varchar"
+			},
+			{
+				"name": "GSTCustStateCode",
+				"type": "varchar"
+			},
+			{
+				"name": "CompanyACCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CreatedDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "CreatedBy",
+				"type": "nchar"
+			},
+			{
+				"name": "AuditDt",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "MaxKotDateTime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "MaxKotNo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BillMadeDateTime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "BillSettleDateTime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "MinKotDateTime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "MinKotNo",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimBillOrderHead"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

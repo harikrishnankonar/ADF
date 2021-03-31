@@ -1,0 +1,35 @@
+{
+	"name": "dfbotlastvisteddate",
+	"properties": {
+		"folder": {
+			"name": "BOT Master"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsdwsourcedb",
+						"type": "DatasetReference"
+					},
+					"name": "dsbotlastvisiteddate"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimLastVisited_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimLastVisited"
+				}
+			],
+			"transformations": [
+				{
+					"name": "arbotlastvisitedmst"
+				}
+			],
+			"script": "source(output(\n\t\tGuestId as integer,\n\t\tLastVisitedDate as timestamp,\n\t\tVisitCount as integer,\n\t\tDaysNotVisited as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'select \\n\tGuestId, \\n\tmax(ReservedDate) LastVisitedDate, \\n\tCount(1) VisitCount, \\n\tDATEDIFF(day,isnull(max(reserveddate),getdate()),getdate()) DaysNotVisited\\nfrom DimReservation \\ngroup by guestid',\n\tformat: 'query') ~> dsbotlastvisiteddate\ndsbotlastvisiteddate alterRow(upsertIf(true())) ~> arbotlastvisitedmst\narbotlastvisitedmst sink(input(\n\t\tLastVisitedID as integer,\n\t\tGuestID as integer,\n\t\tLastVisitedDate as timestamp,\n\t\tVisitCount as integer,\n\t\tDaysNotVisited as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['GuestID'],\n\tformat: 'table',\n\tmapColumn(\n\t\tGuestID = GuestId,\n\t\tLastVisitedDate,\n\t\tVisitCount,\n\t\tDaysNotVisited\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimLastVisited"
+		}
+	}
+}

@@ -1,0 +1,48 @@
+{
+	"name": "DimGuestRating_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "BOT"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "GuestRatingID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			},
+			{
+				"name": "RatingCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "RatingDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RatingRank",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimGuestRating"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

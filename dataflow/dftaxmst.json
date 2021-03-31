@@ -1,0 +1,35 @@
+{
+	"name": "dftaxmst",
+	"properties": {
+		"folder": {
+			"name": "POSMaster"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsposdata",
+						"type": "DatasetReference"
+					},
+					"name": "dstaxmst"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimTaxMst_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimTaxMst"
+				}
+			],
+			"transformations": [
+				{
+					"name": "artaxmst"
+				}
+			],
+			"script": "source(output(\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tPOSCode as string,\n\t\tTaxCode as integer,\n\t\tTaxDescription as string,\n\t\tTaxGroupCode as integer,\n\t\tTaxGroupDescription as string,\n\t\tTaxType as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select (Select top 1 Left(GroupId,3) as GroupId from tblinstallationdetails) as GroupId\\n, (Select top 1 Left(ClientId,3) as ClientId from tblinstallationdetails) as ClientId\\n,  t1.POSCode, \\nt1.TaxCode, \\nt1.Description TaxDescription, \\nisnull(t3.TaxGroupCode,\\' \\') TaxGroupCode, \\nisnull(t3.Description,\\' \\') TaxGroupDescription,\\ncase when t1.Type = 0 then \\'Internal\\' when t1.type = 1 then \\'External\\' else \\'N.A.\\' end TaxType\\nfrom [TblTaxMst] t1 with(nolock)\\nleft outer join [TblTaxSubGroupMst] t2 with(nolock) on t1.TaxCode = t2.TaxCode\\nleft outer join [TblTaxMainGroupMst] t3 with(nolock) on t2.TaxGroupCode =  t3.TaxGroupCode',\n\tformat: 'query') ~> dstaxmst\ndstaxmst alterRow(upsertIf(true())) ~> artaxmst\nartaxmst sink(input(\n\t\tTaxID as integer,\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tTaxCode as integer,\n\t\tPOSCode as string,\n\t\tTaxDescription as string,\n\t\tTaxGroupCode as integer,\n\t\tTaxGroupDescription as string,\n\t\tTaxType as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['POSCode','TaxCode'],\n\tformat: 'table',\n\tmapColumn(\n\t\tGroupId,\n\t\tClientId,\n\t\tTaxCode,\n\t\tPOSCode,\n\t\tTaxDescription,\n\t\tTaxGroupCode,\n\t\tTaxGroupDescription,\n\t\tTaxType\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimTaxMst"
+		}
+	}
+}

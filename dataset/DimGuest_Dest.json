@@ -1,0 +1,60 @@
+{
+	"name": "DimGuest_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "BOT"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "GuestID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			},
+			{
+				"name": "CustomerCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CustomerName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LandLineNo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Mobile",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EmailID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RatingID",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimGuest"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

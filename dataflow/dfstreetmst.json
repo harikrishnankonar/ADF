@@ -1,0 +1,35 @@
+{
+	"name": "dfstreetmst",
+	"properties": {
+		"folder": {
+			"name": "POSMaster"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsposdata",
+						"type": "DatasetReference"
+					},
+					"name": "dstreetmst"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimStreetMst_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimStreetMst"
+				}
+			],
+			"transformations": [
+				{
+					"name": "arstreetmst"
+				}
+			],
+			"script": "source(output(\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tStreetCode as integer,\n\t\tStreetDescription as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select (Select top 1 Left(GroupId,3) as GroupId from tblinstallationdetails) as GroupId\\n, (Select top 1 Left(ClientId,3) as ClientId from tblinstallationdetails) as ClientId\\n,  StreetCode, StreetDescription from [TblStreetMst] with(nolock)',\n\tformat: 'query') ~> dstreetmst\ndstreetmst alterRow(upsertIf(true())) ~> arstreetmst\narstreetmst sink(input(\n\t\tStreetID as integer,\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tStreetCode as integer,\n\t\tStreetDescription as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['StreetCode'],\n\tformat: 'table',\n\tmapColumn(\n\t\tGroupId,\n\t\tClientId,\n\t\tStreetCode,\n\t\tStreetDescription\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimStreetMst"
+		}
+	}
+}

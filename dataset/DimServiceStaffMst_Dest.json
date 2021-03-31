@@ -1,0 +1,43 @@
+{
+	"name": "DimServiceStaffMst_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ServiceStaffMasterId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POSCode",
+				"type": "char"
+			},
+			{
+				"name": "EmployeeCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ServiceTypeCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "TouchScreenDescription",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "ServiceStaffMaster"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

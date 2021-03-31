@@ -1,0 +1,42 @@
+{
+	"name": "DimPaymentModeMst_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "PaymentModeID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PaymentModeCode",
+				"type": "varchar"
+			},
+			{
+				"name": "PaymentModeDesciption",
+				"type": "varchar"
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimPaymentModeMst"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,48 @@
+{
+	"name": "DimKOTOrder_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "KotOrderID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POSCode",
+				"type": "nchar"
+			},
+			{
+				"name": "KOTNo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "KOTDateTime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "GroupId",
+				"type": "varchar"
+			},
+			{
+				"name": "ClientId",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimKOTOrder"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

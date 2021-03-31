@@ -1,0 +1,39 @@
+{
+	"name": "FlavorSizeMaster_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "FlavorSizeMasterId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FlavorSizeCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FlavorSizeDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FlavorSizeGroupCode",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "FlavorSizeMaster"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

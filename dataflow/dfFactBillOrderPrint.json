@@ -1,0 +1,31 @@
+{
+	"name": "dfFactBillOrderPrint",
+	"properties": {
+		"folder": {
+			"name": "POS Transaction"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsdwsourcedb",
+						"type": "DatasetReference"
+					},
+					"name": "dsFactBillOrderPrint"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "FactBillOrderPrint",
+						"type": "DatasetReference"
+					},
+					"name": "FactBillOrderPrint"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tDimBillOrderPrintId as integer,\n\t\tPOSId as integer,\n\t\tPropertyID as integer,\n\t\tRegionId as integer,\n\t\tBrandId as integer,\n\t\tCountryId as integer,\n\t\tBillKOTTypeId as integer,\n\t\tBillNo as string,\n\t\tPrintDateId as integer,\n\t\tPrintedAmount as decimal(18,8),\n\t\tIsVoidId as integer,\n\t\tIsNcBillId as integer,\n\t\tCreatedById as integer,\n\t\tCreatedDateId as integer,\n\t\tPrintCount as integer,\n\t\tOptionID as integer,\n\t\tBillSettledById as integer,\n\t\tBillSettleDateId as integer,\n\t\tBillDateId as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select T1.DimBillOrderPrintId\\n,ISNull(T2.POSId,0) as POSId\\n,ISNull(T9.PropertyID,0) as PropertyID\\n,ISNull(T10.RegionID,0) as RegionId\\n,ISNull(T11.BrandID,0) as BrandId\\n,ISNull(T12.CountryId,0) as CountryId\\n,ISNull(T3.BillKOTTypeId,0) as BillKOTTypeId\\n,ISNull(T1.BillNo,\\'\\') as BillNo\\n,ISNull(T4.DateTimeId,0) as PrintDateId\\n,ISNull(T1.PrintedAmount,0) as PrintedAmount\\n,ISNull(T5.IsVoidBillId,0) as IsVoidId\\n,ISNull(T6.IsNcBillId,0) as IsNcBillId\\n,ISNull(T7.UserID,0) as CreatedById\\n,ISNull(T8.DateTimeID,0) as CreatedDateId\\n,ISNULL(T13.PrintCount,0) as PrintCount\\n,ISNULL(T14.OptionID,0) as OptionID\\n,ISNULL(T15.UserID,0) as BillSettledById\\n,ISNULL(T16.DateTimeId,0) as BillSettleDateId\\n,ISNULL(T17.DateTimeId,0) as BillDateId\\nFrom DimBillOrderPrint T1\\nLeft Outer Join DimPosMst T2 on T1.PosCode = T2.POSCode\\nLeft Outer Join DimPropertyMst T9 on T1.PropertyCode = T9.PropertyCode\\nLeft Outer Join DimRegionMst T10 on T1.RegionCode = T10.RegionCode\\nLeft Outer Join DimBrandMst T11 on T1.BrandCode = T11.BrandCode\\nLeft Outer Join DimCountryMst T12 on T1.CountryCode = T12.CountryCode\\nLeft Outer Join DimBillKOTType T3 on T1.BillOrder = T3.BillKOTType\\nLeft Outer Join DimDateTime T4 on Cast(T1.PrintDate as DATE) = T4.CDate\\nLeft Outer Join IsVoidBill T5 on T1.IsVoid = T5.IsVoidBillId\\nLeft Outer Join IsNcBill T6 on T1.IsNcBill = T6.IsNcBillId\\nLeft Outer Join DimUser T7 on T1.CreatedBy = T7.UserShortName\\nLeft Outer Join DimDateTime T8 on Cast(T1.CreatedDate as DATE) = T8.CDate\\nLeft Outer Join (Select POSCode,BillNo,COUNT(1)  as PrintCount from DimBillOrderPrint iT1 Group By POSCode, BillNo ) T13 on T1.POSCode = T13.POSCode and T1.BillNo = T13.BillNo\\nLeft Outer Join OptionsMaster T14 on T1.OptionNeumonic = T14.OptionNeumonic\\nLeft Outer Join DimUser T15 on T1.BillSettledBy = T15.UserShortName\\nLeft Outer Join DimDateTime T16 on Cast(T1.SettleDate as Date)= T16.CDate\\nLeft Outer Join DimDateTime T17 on Cast(T1.BillDateTime as Date)= T17.CDate',\n\tformat: 'query') ~> dsFactBillOrderPrint\ndsFactBillOrderPrint sink(input(\n\t\tFactBillOrderPrintId as integer,\n\t\tDimBillOrderPrintId as integer,\n\t\tPOSId as integer,\n\t\tPropertyId as integer,\n\t\tRegionId as integer,\n\t\tBrandId as integer,\n\t\tCountryId as integer,\n\t\tBillKOTTypeId as integer,\n\t\tBillNo as string,\n\t\tPrintDateId as integer,\n\t\tPrintedAmount as decimal(18,8),\n\t\tIsVoidId as integer,\n\t\tIsNcBillId as integer,\n\t\tCreatedById as integer,\n\t\tCreatedDateId as integer,\n\t\tPrintCount as integer,\n\t\tOptionID as integer,\n\t\tBillSettledById as integer,\n\t\tBillSettleDateId as integer,\n\t\tBillDateId as integer,\n\t\tPaymentModeID as integer,\n\t\tCollectionAmount as decimal(18,8),\n\t\tLinkBillDateId as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tmapColumn(\n\t\tDimBillOrderPrintId,\n\t\tPOSId,\n\t\tPropertyId = PropertyID,\n\t\tRegionId,\n\t\tBrandId,\n\t\tCountryId,\n\t\tBillKOTTypeId,\n\t\tBillNo,\n\t\tPrintDateId,\n\t\tPrintedAmount,\n\t\tIsVoidId,\n\t\tIsNcBillId,\n\t\tCreatedById,\n\t\tCreatedDateId,\n\t\tPrintCount,\n\t\tOptionID,\n\t\tBillSettledById,\n\t\tBillSettleDateId,\n\t\tBillDateId\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> FactBillOrderPrint"
+		}
+	}
+}

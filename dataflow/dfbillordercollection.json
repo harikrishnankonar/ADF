@@ -1,0 +1,35 @@
+{
+	"name": "dfbillordercollection",
+	"properties": {
+		"folder": {
+			"name": "POS Transaction"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsposdata",
+						"type": "DatasetReference"
+					},
+					"name": "dsbillordercollection"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimBillOrderCollection_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimBillOrderCollection"
+				}
+			],
+			"transformations": [
+				{
+					"name": "arbillordercollection"
+				}
+			],
+			"script": "source(output(\n\t\tGroupID as string,\n\t\tClientID as string,\n\t\tPOSCode as string,\n\t\tPropertyCode as integer,\n\t\tRegionCode as integer,\n\t\tBrandCode as integer,\n\t\tCountryCode as integer,\n\t\tCollectionType as string,\n\t\tBillNo as string,\n\t\tBillDateTime as timestamp,\n\t\tPaymentModeCode as string,\n\t\tPaymentCode as string,\n\t\tCollectionAmount as decimal(38,8),\n\t\tCollectionTip as decimal(38,8),\n\t\tCollectionReturn as decimal(38,8),\n\t\tShiftCode as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select\\n\\'002\\' GroupID,\\n\\'000\\' ClientID,\\nIsNull(t1.POSCode,\\'\\') as POSCode,\\nIsNull(t1.PropertyCode,\\'\\') as PropertyCode,\\nIsNull(t1.RegionCode,\\'\\') as RegionCode,\\nIsNull(t1.BrandCode,\\'\\') as BrandCode,\\nIsNull(t1.CountryCode,\\'\\') as CountryCode,\\nIsNull(t1.CollectionType,\\'\\') as CollectionType,\\nIsNull(t1.BillNo,\\'\\') as BillNo,\\nIsNull(t1.BillDateTime,\\'\\') as BillDateTime,\\nIsNull(t1.PaymentModeCode,\\'\\') as PaymentModeCode,\\nIsNull(t1.PaymentCode,\\'\\') as PaymentCode,\\nIsNull(t1.CollectionAmount,0) as CollectionAmount ,\\nIsNull(t1.CollectionTip,0) as CollectionTip,\\nIsNull(t1.CollectionReturn,0) as CollectionReturn,\\nIsNull(t2.BillSettledShift,0) as ShiftCode\\nFrom QFile.TblBillCollection T1 with(nolock) \\nLeft Outer Join QFile.TblBillOrderHead t2 with(nolock) on T1.PosCode = t2.PosCode and T1.BillNo = T2.BillNo\\nWhere  t2.billorder = \\'B\\' and t2.BillStatus = \\'S\\'',\n\tformat: 'query') ~> dsbillordercollection\ndsbillordercollection alterRow(insertIf(true())) ~> arbillordercollection\narbillordercollection sink(input(\n\t\tBillOrderCollectionID as integer,\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tPOSCode as string,\n\t\tPropertyCode as integer,\n\t\tRegionCode as integer,\n\t\tBrandCode as integer,\n\t\tCountryCode as integer,\n\t\tCollectionType as string,\n\t\tBillNo as string,\n\t\tBillDateTime as timestamp,\n\t\tPaymentModeCode as string,\n\t\tPaymentCode as string,\n\t\tCollectionAmount as decimal(38,8),\n\t\tCollectionTip as decimal(38,8),\n\t\tCollectionReturn as decimal(38,8),\n\t\tid as integer,\n\t\tShiftCode as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tmapColumn(\n\t\tGroupId = GroupID,\n\t\tClientId = ClientID,\n\t\tPOSCode,\n\t\tPropertyCode,\n\t\tRegionCode,\n\t\tBrandCode,\n\t\tCountryCode,\n\t\tCollectionType,\n\t\tBillNo,\n\t\tBillDateTime,\n\t\tPaymentModeCode,\n\t\tPaymentCode,\n\t\tCollectionAmount,\n\t\tCollectionTip,\n\t\tCollectionReturn,\n\t\tShiftCode\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimBillOrderCollection"
+		}
+	}
+}

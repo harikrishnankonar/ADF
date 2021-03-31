@@ -1,0 +1,35 @@
+{
+	"name": "dfsubcomplimentarytypemst",
+	"properties": {
+		"folder": {
+			"name": "POSMaster"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsposdata",
+						"type": "DatasetReference"
+					},
+					"name": "dssubcomplimentarytypemst"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimSubComplimentaryTypeMst_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimSubComplimentaryTypeMst"
+				}
+			],
+			"transformations": [
+				{
+					"name": "arsubcomplimentarytypemst"
+				}
+			],
+			"script": "source(output(\n\t\tSubComplimentaryTypeCode as decimal(18,0),\n\t\tPOSCode as string,\n\t\tSubComplimentaryTypeDesc as string,\n\t\tActive as boolean,\n\t\tOptionNeumonic as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select SubComplimentaryTypeCode, POSCode, SubComplimentaryTypeDesc, Active, OptionNeumonic From TblSubComplimentaryTypeMst',\n\tformat: 'query') ~> dssubcomplimentarytypemst\ndssubcomplimentarytypemst alterRow(upsertIf(true())) ~> arsubcomplimentarytypemst\narsubcomplimentarytypemst sink(input(\n\t\tSubComplimentaryTypeId as integer,\n\t\tSubComplimentaryTypeCode as decimal(18,0),\n\t\tPOSCode as string,\n\t\tSubComplimentaryTypeDesc as string,\n\t\tActive as boolean,\n\t\tOptionNeumonic as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['POSCode','SubComplimentaryTypeCode'],\n\tformat: 'table',\n\tmapColumn(\n\t\tSubComplimentaryTypeCode,\n\t\tPOSCode,\n\t\tSubComplimentaryTypeDesc,\n\t\tActive,\n\t\tOptionNeumonic\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimSubComplimentaryTypeMst"
+		}
+	}
+}

@@ -1,0 +1,35 @@
+{
+	"name": "dfboteventmst",
+	"properties": {
+		"folder": {
+			"name": "BOT Master"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsdwsbotourcedb",
+						"type": "DatasetReference"
+					},
+					"name": "dsboteventmst"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimEvent_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimEventMst"
+				}
+			],
+			"transformations": [
+				{
+					"name": "arboteventmst"
+				}
+			],
+			"script": "source(output(\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tEventId as integer,\n\t\tEventName as string,\n\t\tDescription as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select \\'002\\' as GroupId,\\'000\\' as ClientId ,EventId, EventName, [Description] from tblbotevents  with(nolock) where accountid = 18',\n\tformat: 'query') ~> dsboteventmst\ndsboteventmst alterRow(upsertIf(true())) ~> arboteventmst\narboteventmst sink(input(\n\t\tDimEventID as integer,\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tEventID as integer,\n\t\tEventName as string,\n\t\tDescription as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['EventID'],\n\tformat: 'table',\n\tmapColumn(\n\t\tGroupId,\n\t\tClientId,\n\t\tEventID = EventId,\n\t\tEventName,\n\t\tDescription\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimEventMst"
+		}
+	}
+}

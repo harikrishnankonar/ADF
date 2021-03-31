@@ -1,0 +1,59 @@
+{
+	"name": "DimBOTUser_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "BOTUserID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "UserID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Email",
+				"type": "varchar"
+			},
+			{
+				"name": "IsRetire",
+				"type": "char"
+			},
+			{
+				"name": "IsSuper",
+				"type": "char"
+			},
+			{
+				"name": "System",
+				"type": "varchar"
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimBOTUser"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

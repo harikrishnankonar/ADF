@@ -1,0 +1,48 @@
+{
+	"name": "DimSubComplimentaryTypeMst_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "SubComplimentaryTypeId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SubComplimentaryTypeCode",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "POSCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SubComplimentaryTypeDesc",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Active",
+				"type": "bit"
+			},
+			{
+				"name": "OptionNeumonic",
+				"type": "nchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "SubComplimentaryTypeMaster"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

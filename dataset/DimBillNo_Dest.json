@@ -1,0 +1,140 @@
+{
+	"name": "DimBillNo_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "DimBillNoID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			},
+			{
+				"name": "POSCode",
+				"type": "nchar"
+			},
+			{
+				"name": "BillNo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BillDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "BillAmount",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "BillTax",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "BillDiscount",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "BillRoundOffAmount",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "PartyName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BillMadeDateTime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "BillSettleDateTime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "CustomerName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DiscountRemark",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DiscountCardNo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "GeneralRemark",
+				"type": "nvarchar"
+			},
+			{
+				"name": "GuestName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MemberCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MemberName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MemberShipCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ParentBillNo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "GSTINNumber",
+				"type": "varchar"
+			},
+			{
+				"name": "GSTCustName",
+				"type": "varchar"
+			},
+			{
+				"name": "GSTCustAddress",
+				"type": "varchar"
+			},
+			{
+				"name": "GSTCustStateCode",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimBillNo"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

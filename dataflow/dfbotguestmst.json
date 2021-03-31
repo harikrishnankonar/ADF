@@ -1,0 +1,35 @@
+{
+	"name": "dfbotguestmst",
+	"properties": {
+		"folder": {
+			"name": "BOT Master"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsdwsbotourcedb",
+						"type": "DatasetReference"
+					},
+					"name": "dsbotguestmst"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimGuest_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimGuestMst"
+				}
+			],
+			"transformations": [
+				{
+					"name": "arbotguestmst"
+				}
+			],
+			"script": "source(output(\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tGuestCode as integer,\n\t\tName as string,\n\t\tLandLineNo as string,\n\t\tMobile as string,\n\t\tEmailID as string,\n\t\tRatingCode as integer,\n\t\tAllergies as string,\n\t\tOtherContact as string,\n\t\tOtherEmail as string,\n\t\tCompanyName as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'select  \\'002\\' as GroupId\t\\n, \\'000\\' as ClientId\\n,t1.GuestID GuestCode, \\n\t\tleft(concat(isnull(rtrim(Title),\\'\\'),\\' \\',isnull(rtrim(t1.FirstName),\\'\\'),\\' \\',isnull(rtrim(lastname),\\'\\')),100) Name, \\n\t\tleft(isnull(t1.LandLineNo,\\'\\'),50) LandLineNo, \\n\t\tleft(isnull(t1.Mobile,\\'\\'),50) Mobile, \\n\t\tisnull(t1.EmailID,\\'\\') EmailID, \\n\t\tisnull(t1.rating,0) RatingCode, \\n\t\tisnull(t1.Allergies,\\'\\') Allergies, \\n\t\tisnull(t1.OtherContact,\\'\\') OtherContact, \\n\t\tisnull(t1.OtherEmail,\\'\\') OtherEmail, \\n\t\tisnull(t2.CompanyName,\\'\\') CompanyName\\nfrom tblbotguest t1 with(nolock)  left outer join \\ntblbotcompany t2 with(nolock) on t1.CompanyID = t2.CompanyID\\nWhere t1.AccountId = 18',\n\tformat: 'query') ~> dsbotguestmst\ndsbotguestmst alterRow(upsertIf(true())) ~> arbotguestmst\narbotguestmst sink(input(\n\t\tGuestID as integer,\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tCustomerCode as integer,\n\t\tCustomerName as string,\n\t\tLandLineNo as string,\n\t\tMobile as string,\n\t\tEmailID as string,\n\t\tRatingID as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['CustomerCode'],\n\tformat: 'table',\n\tmapColumn(\n\t\tGroupId,\n\t\tClientId,\n\t\tCustomerCode = GuestCode,\n\t\tCustomerName = Name,\n\t\tLandLineNo,\n\t\tMobile,\n\t\tEmailID,\n\t\tRatingID = RatingCode\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimGuestMst"
+		}
+	}
+}

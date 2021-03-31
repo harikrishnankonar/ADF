@@ -1,0 +1,38 @@
+{
+	"name": "DimPaymodeMst_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "PaymodeMasterId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PaymodeCode",
+				"type": "char"
+			},
+			{
+				"name": "PaymodeDesc",
+				"type": "varchar"
+			},
+			{
+				"name": "PaymodeImagePath",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "PaymodeMaster"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,35 @@
+{
+	"name": "dfbotreservation",
+	"properties": {
+		"folder": {
+			"name": "BOT Master"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsdwsbotourcedb",
+						"type": "DatasetReference"
+					},
+					"name": "dsbotreservation"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimReservation_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimReservation"
+				}
+			],
+			"transformations": [
+				{
+					"name": "arbotreservation"
+				}
+			],
+			"script": "source(output(\n\t\tReservationId as integer,\n\t\tRestaurantId as integer,\n\t\tFloorId as integer,\n\t\tGuestId as integer,\n\t\tBookerId as integer,\n\t\tMealStructureId as integer,\n\t\tToTime as decimal(4,2),\n\t\tFromTime as decimal(4,2),\n\t\tSpecialRequest as string,\n\t\tSmoking as boolean,\n\t\tReservedDate as timestamp,\n\t\tReservationTime as timestamp,\n\t\tPax as integer,\n\t\tVisitsCount as integer,\n\t\tOccassionId as integer,\n\t\tFlagId as integer,\n\t\tArrivedTime as decimal(4,2),\n\t\tActualPax as integer,\n\t\tStatus as integer,\n\t\tIsCancelled as boolean,\n\t\tCancelledDateTime as timestamp,\n\t\tCancelledBy as integer,\n\t\tCancelRemarks as string,\n\t\tReason as integer,\n\t\tIsWalkin as boolean,\n\t\tVacantTime as decimal(4,2),\n\t\tTotalVisitCount as integer,\n\t\tBillDateTime as timestamp,\n\t\tBillAmount as decimal(38,0),\n\t\tCompBillAmount as decimal(38,0),\n\t\tBillStatus as string,\n\t\tBookingSourceID as integer,\n\t\tCreatedBy as integer,\n\t\tCreatedOn as timestamp,\n\t\tDaysInAdvance as integer,\n\t\tClientId as string,\n\t\tGroupId as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select t1.ReservationId,\\n\t\t\t\tt1.RestaurantId,\\n\t\t\t\tt1.FloorId,\\n\t\t\t\tt1.GuestId,\\n\t\t\t\tt1.BookerId,\\n\t\t\t\tt1.MealStructureId,\\n\t\t\t\tt1.ToTime,\\n\t\t\t\tt1.FromTime,\\n\t\t\t\tt1.SpecialRequest,\\n\t\t\t\tt1.Smoking,\\n\t\t\t\tt1.ReservedDate,\\n\t\t\t\tt1.ReservationTime,\\n\t\t\t\tt1.Pax,\\n\t\t\t\tt1.VisitsCount,\\n\t\t\t\tt1.OccassionId,\\n\t\t\t\tt1.FlagId,\\n\t\t\t\tt1.ArrivedTime,\\n\t\t\t\tt1.ActualPax,\\n\t\t\t\tt1.Status,\\n\t\t\t\tt1.IsCancelled,\\n\t\t\t\tt1.CancelledDateTime,\\n\t\t\t\tt1.CancelledBy,\\n\t\t\t\tt1.CancelRemarks,\\n\t\t\t\tt1.Reason,\\n\t\t\t\tt1.IsWalkin,\\n\t\t\t\tt1.VacantTime,\\n\t\t\t\tt1.TotalVisitCount,\\n\t\t\t\tCase when IsNull(T4.ReservationId,0)<>0 then T4.BillDateTime \\n\t\t\t\t\t when IsNull(T5.ReservationId,0)<>0 then T5.BillDateTime \\n\t\t\t\t\tElse \\'1900-01-01\\' End  As BillDateTime,\\n\t\t\t\tisnull(t4.BillAmount,0) BillAmount,\\n\t\t\t\t\tisnull(t5.CompBillAmount,0) CompBillAmount,\\n\t\t\t\tCase when IsNull(T4.ReservationId,0)=0 and IsNull(T5.ReservationId,0)=0 then \\'NoBill\\' \\n\t\t\t\t\twhen IsNull(T4.ReservationId,0)<>0 and IsNull(T5.ReservationId,0)=0 then \\'OnlyBill\\' \\n\t\t\t\t\twhen IsNull(T4.ReservationId,0)=0 and IsNull(T5.ReservationId,0)<>0 then \\'OnlyComplimenry\\' \\n\t\t\t\t\telse \\'BillWithComplimentry\\' End as BillStatus,\\n\t\t\t\tCase \\n\t\t\t\twhen t1.System = \\'FM\\' then 3\\n\t\t\t\twhen IsNull(t1.System,\\'\\') = \\'\\' or t1.System = \\'OTRS\\' or t1.System = \\'Respak\\'  then 0\\n\t\t\t\telse t1.System\\n\t\t\t\tEnd as BookingSourceID,\\n\t\t\t\tIsNull(t1.CreatedBy,0) as CreatedBy,\\n\t\t\t\tIsNull(t1.CreatedOn,\\'\\') as CreatedOn,\\n\t\t\t\tDateDiff(Day,IsNull(CreatedOn,GetDate()),IsNull(ReservedDate,GetDate())) as DaysInAdvance,\\n\t\t\t\t\\'000\\' as ClientId,\\n\t\t\t\t\\'002\\' as GroupId\\n\t\t\tFrom TblBotReservation  t1 with(nolock) \\n\t\t\tleft outer join (select ReservationId, SettlementDate as BillDateTime, sum(PayModeAmount) BillAmount \\n\t\t\t\t\t\t\t\t\tfrom tblbotbillsettlement \\n\t\t\t\t\t\t\t\t\tWhere RestaurantId in (Select RestaurantId from tblFMRestaurant where ISActive = 1  and IsCloud =0 and AccountID = 18) and Paymode <> \\'O\\' \\n\t\t\t\t\t\t\t\t\tgroup by ReservationId, SettlementDate) t4 on t1.reservationid = t4.reservationid\\n\t\t\tleft outer join (select ReservationId, SettlementDate as BillDateTime, sum(PayModeAmount) CompBillAmount \\n\t\t\t\t\t\t\t\t\tfrom tblbotbillsettlement Where RestaurantId in (Select RestaurantId from tblFMRestaurant where ISActive = 1  and IsCloud =0 and AccountID = 18) \\n\t\t\t\t\t\t\t\t\tand Paymode = \\'O\\' group by ReservationId, SettlementDate) t5 on t1.reservationid = t5.reservationid\\n\t\t\twhere T1.Restaurantid in  (Select RestaurantId from tblFMRestaurant where ISActive = 1  and IsCloud =0 and AccountID = 18)\\n\t\t\tand T1.ReservedDate > \\'2021/01/31 23:59:59\\'',\n\tformat: 'query') ~> dsbotreservation\ndsbotreservation alterRow(upsertIf(true())) ~> arbotreservation\narbotreservation sink(input(\n\t\tDimReservationId as integer,\n\t\tReservationId as integer,\n\t\tRestaurantId as integer,\n\t\tFloorId as integer,\n\t\tGuestId as integer,\n\t\tBookerId as integer,\n\t\tMealStructureId as integer,\n\t\tToTime as decimal(4,2),\n\t\tFromTime as decimal(4,2),\n\t\tSpecialRequest as string,\n\t\tSmoking as boolean,\n\t\tReservedDate as timestamp,\n\t\tReservationTime as timestamp,\n\t\tPax as integer,\n\t\tVisitsCount as integer,\n\t\tOccassionId as integer,\n\t\tFlagId as integer,\n\t\tArrivedTime as decimal(4,2),\n\t\tActualPax as integer,\n\t\tStatus as integer,\n\t\tIsCancelled as boolean,\n\t\tCancelledDateTime as timestamp,\n\t\tCancelledBy as integer,\n\t\tCancelRemarks as string,\n\t\tReason as integer,\n\t\tIsWalkin as boolean,\n\t\tVacantTime as decimal(4,2),\n\t\tTotalVisitCount as integer,\n\t\tBillAmount as decimal(18,9),\n\t\tBillStatus as string,\n\t\tBookingSourceId as integer,\n\t\tCreatedBy as integer,\n\t\tCreatedOn as timestamp,\n\t\tDaysInAdvance as integer,\n\t\tCompBillAmount as decimal(18,8),\n\t\tBillDateTime as timestamp,\n\t\tGroupId as string,\n\t\tClientId as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['ReservationId'],\n\tformat: 'table',\n\tmapColumn(\n\t\tReservationId,\n\t\tRestaurantId,\n\t\tFloorId,\n\t\tGuestId,\n\t\tBookerId,\n\t\tMealStructureId,\n\t\tToTime,\n\t\tFromTime,\n\t\tSpecialRequest,\n\t\tSmoking,\n\t\tReservedDate,\n\t\tReservationTime,\n\t\tPax,\n\t\tVisitsCount,\n\t\tOccassionId,\n\t\tFlagId,\n\t\tArrivedTime,\n\t\tActualPax,\n\t\tStatus,\n\t\tIsCancelled,\n\t\tCancelledDateTime,\n\t\tCancelledBy,\n\t\tCancelRemarks,\n\t\tReason,\n\t\tIsWalkin,\n\t\tVacantTime,\n\t\tTotalVisitCount,\n\t\tBillAmount,\n\t\tBillStatus,\n\t\tBookingSourceId = BookingSourceID,\n\t\tCreatedBy,\n\t\tCreatedOn,\n\t\tDaysInAdvance,\n\t\tCompBillAmount,\n\t\tBillDateTime,\n\t\tGroupId,\n\t\tClientId\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimReservation"
+		}
+	}
+}

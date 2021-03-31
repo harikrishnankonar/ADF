@@ -1,0 +1,167 @@
+{
+	"name": "FactBOTBillNo_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "BOT"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "FactBOTBillNoID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DimBOTBillNoID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DimReservationId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POSId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DimFloorId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GuestId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DimBookerId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DimMealStructureId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Pax",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "VisitsCount",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "OccassionId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DimFlagId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ActualPax",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DimStatusID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ResvCancelID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DimReasonID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "WalkinID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "LastVisitedID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "VisitStatusID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GuestRatingID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ReservationHourID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DaysNotVisitedID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "TableID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NoShowId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DimBookingSourceID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ReservedDateId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BillDateTimeId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BillAmount",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "PaymentModeID",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "FactBOTBills"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

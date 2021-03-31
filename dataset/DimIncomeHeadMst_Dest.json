@@ -1,0 +1,52 @@
+{
+	"name": "DimIncomeHeadMst_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "IncomeHeadID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			},
+			{
+				"name": "IncomeHeadCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IncomeHeadDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IncomeHeadGroupCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IncomeHeadGroupDescription",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimIncomeHeadMst"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

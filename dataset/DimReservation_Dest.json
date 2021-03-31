@@ -1,0 +1,213 @@
+{
+	"name": "DimReservation_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "BOT"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "DimReservationId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ReservationId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "RestaurantId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FloorId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GuestId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BookerId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "MealStructureId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ToTime",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 2
+			},
+			{
+				"name": "FromTime",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 2
+			},
+			{
+				"name": "SpecialRequest",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Smoking",
+				"type": "bit"
+			},
+			{
+				"name": "ReservedDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "ReservationTime",
+				"type": "time",
+				"scale": 7
+			},
+			{
+				"name": "Pax",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "VisitsCount",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "OccassionId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FlagId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ArrivedTime",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 2
+			},
+			{
+				"name": "ActualPax",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Status",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IsCancelled",
+				"type": "bit"
+			},
+			{
+				"name": "CancelledDateTime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "CancelledBy",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CancelRemarks",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Reason",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IsWalkin",
+				"type": "bit"
+			},
+			{
+				"name": "VacantTime",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 2
+			},
+			{
+				"name": "TotalVisitCount",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BillAmount",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 9
+			},
+			{
+				"name": "BillStatus",
+				"type": "varchar"
+			},
+			{
+				"name": "BookingSourceId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CreatedBy",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CreatedOn",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DaysInAdvance",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CompBillAmount",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 8
+			},
+			{
+				"name": "BillDateTime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimReservation"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

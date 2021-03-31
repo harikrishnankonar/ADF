@@ -1,0 +1,114 @@
+{
+	"name": "DimPartyMst_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "PartyID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			},
+			{
+				"name": "PartyCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PartyDescription",
+				"type": "varchar"
+			},
+			{
+				"name": "PartyAddressLine1",
+				"type": "varchar"
+			},
+			{
+				"name": "PartyAddressLine2",
+				"type": "varchar"
+			},
+			{
+				"name": "PartyAddressLine3",
+				"type": "varchar"
+			},
+			{
+				"name": "CityCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "StateCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CountryCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Pincode",
+				"type": "varchar"
+			},
+			{
+				"name": "Telephone1",
+				"type": "varchar"
+			},
+			{
+				"name": "Telephone2",
+				"type": "varchar"
+			},
+			{
+				"name": "Telephone3",
+				"type": "varchar"
+			},
+			{
+				"name": "MobileNumber",
+				"type": "varchar"
+			},
+			{
+				"name": "Fax",
+				"type": "varchar"
+			},
+			{
+				"name": "Designation",
+				"type": "varchar"
+			},
+			{
+				"name": "BlackListed",
+				"type": "bit"
+			},
+			{
+				"name": "PartyWebsite",
+				"type": "varchar"
+			},
+			{
+				"name": "PartyEmailId",
+				"type": "varchar"
+			},
+			{
+				"name": "ContactPerson",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimPartyMst"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

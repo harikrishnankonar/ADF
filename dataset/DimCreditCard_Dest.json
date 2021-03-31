@@ -1,0 +1,42 @@
+{
+	"name": "DimCreditCard_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CreditCardID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CreditCardCode",
+				"type": "bit"
+			},
+			{
+				"name": "CreditCardDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "GroupID",
+				"type": "char"
+			},
+			{
+				"name": "ClientID",
+				"type": "char"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimCreditCard"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

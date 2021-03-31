@@ -1,0 +1,123 @@
+{
+	"name": "DimPosMst_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "POSID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			},
+			{
+				"name": "POSCode",
+				"type": "nchar"
+			},
+			{
+				"name": "POSDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RestaurantId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POSMISCode",
+				"type": "varchar"
+			},
+			{
+				"name": "POSDOP",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "POSArea",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 5
+			},
+			{
+				"name": "POSTerminal",
+				"type": "varchar"
+			},
+			{
+				"name": "POSType1",
+				"type": "varchar"
+			},
+			{
+				"name": "POSType2",
+				"type": "varchar"
+			},
+			{
+				"name": "POSLocation1",
+				"type": "varchar"
+			},
+			{
+				"name": "POSLocation2",
+				"type": "varchar"
+			},
+			{
+				"name": "StyleofOperationDescription",
+				"type": "varchar"
+			},
+			{
+				"name": "DepartmentCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DepartmentDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BrandCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BrandDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PropertyCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PropertyDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LocationCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "LocationDescription",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimPosMst"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

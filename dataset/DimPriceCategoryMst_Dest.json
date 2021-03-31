@@ -1,0 +1,39 @@
+{
+	"name": "DimPriceCategoryMst_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "PriceCategoryMasterId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PriceCategoryCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PriceCategoryDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PriceCategoryGroupCode",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "PriceCategoryMaster"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

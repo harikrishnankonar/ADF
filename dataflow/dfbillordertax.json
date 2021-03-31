@@ -1,0 +1,35 @@
+{
+	"name": "dfbillordertax",
+	"properties": {
+		"folder": {
+			"name": "POS Transaction"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsposdata",
+						"type": "DatasetReference"
+					},
+					"name": "dsbillordertax"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimBillOrderTax_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimBillOrderTax"
+				}
+			],
+			"transformations": [
+				{
+					"name": "arbillordertax"
+				}
+			],
+			"script": "source(output(\n\t\tGroupID as string,\n\t\tClientID as string,\n\t\tPOSCode as string,\n\t\tPropertyCode as integer,\n\t\tRegionCode as integer,\n\t\tBrandCode as integer,\n\t\tCountryCode as integer,\n\t\tBillOrder as string,\n\t\tBillNo as string,\n\t\tBillDateTime as timestamp,\n\t\tSerialNo as integer,\n\t\tMenuItemCode as string,\n\t\tMenuHeadCode as integer,\n\t\tKioskCode as integer,\n\t\tCostCenterCode as integer,\n\t\tIncomeHeadCode as integer,\n\t\tTDHCode as string,\n\t\tTaxCode as integer,\n\t\tTaxAmount as decimal(38,8),\n\t\tTaxableAmount as decimal(38,8),\n\t\tShiftCode as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select \\n\\'002\\' GroupID,\\n\\'000\\' ClientID,\\nIsNull(T1.POSCode,\\'\\') as POSCode,\\nIsNull(T1.PropertyCode,\\'\\') as PropertyCode,\\nIsNull(T1.RegionCode,\\'\\') as RegionCode,\\nIsNull(T1.BrandCode,\\'\\') as BrandCode,\\nIsNull(T1.CountryCode,\\'\\') as CountryCode,\\nIsNull(T1.BillOrder,\\'\\') as BillOrder,\\nIsNull(T1.BillNo,\\'\\') as BillNo,\\nIsNull(T1.BillDateTime,\\'\\') as BillDateTime,\\nIsNull(T1.SerialNo,\\'\\') as SerialNo,\\nIsNull(T1.MenuItemCode,\\'\\') as MenuItemCode,\\nIsNull(T1.MenuHeadCode,\\'\\') as MenuHeadCode,\\nIsNull(T1.KioskCode,0) as KioskCode,\\nIsNull(T1.CostCenterCode,\\'\\') as CostCenterCode,\\nIsNull(T1.IncomeHeadCode,\\'\\') as IncomeHeadCode,\\nIsNull(T1.TDHCode,\\'\\') as TDHCode,\\nIsNull(T1.TaxCode,\\'\\') as TaxCode,\\nIsNull(T1.TaxAmount,0) as TaxAmount,\\nIsNull(T1.TaxableAmount,0) as TaxableAmount,\\nIsNull(T2.BillSettledShift,0) ShiftCode\\nFrom QFile.TblBillOrderTax t1 with(nolock) \\nLeft Outer Join QFile.TblBillOrderHead t2 on T1.PosCode = t2.PosCode and T1.BillNo = T2.BillNo\\nwhere t1.Billorder = \\'B\\' and t2.BillStatus = \\'S\\'',\n\tformat: 'query') ~> dsbillordertax\ndsbillordertax alterRow(insertIf(true())) ~> arbillordertax\narbillordertax sink(input(\n\t\tBillOrderTaxID as integer,\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tPOSCode as string,\n\t\tPropertyCode as integer,\n\t\tRegionCode as integer,\n\t\tBrandCode as integer,\n\t\tCountryCode as integer,\n\t\tBillOrder as string,\n\t\tBillNo as string,\n\t\tBillDateTime as timestamp,\n\t\tSerialNo as integer,\n\t\tMenuItemCode as string,\n\t\tMenuHeadCode as integer,\n\t\tCostCenterCode as integer,\n\t\tIncomeHeadCode as integer,\n\t\tTaxCode as string,\n\t\tTaxAmount as decimal(38,8),\n\t\tTaxableAmount as decimal(38,8),\n\t\tid as integer,\n\t\tTDHCode as string,\n\t\tkioskcode as integer,\n\t\tShiftCode as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tmapColumn(\n\t\tGroupId = GroupID,\n\t\tClientId = ClientID,\n\t\tPOSCode,\n\t\tPropertyCode,\n\t\tRegionCode,\n\t\tBrandCode,\n\t\tCountryCode,\n\t\tBillOrder,\n\t\tBillNo,\n\t\tBillDateTime,\n\t\tSerialNo,\n\t\tMenuItemCode,\n\t\tMenuHeadCode,\n\t\tCostCenterCode,\n\t\tIncomeHeadCode,\n\t\tTaxCode,\n\t\tTaxAmount,\n\t\tTaxableAmount,\n\t\tTDHCode,\n\t\tkioskcode = KioskCode,\n\t\tShiftCode\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimBillOrderTax"
+		}
+	}
+}

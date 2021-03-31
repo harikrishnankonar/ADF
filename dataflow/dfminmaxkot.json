@@ -1,0 +1,35 @@
+{
+	"name": "dfminmaxkot",
+	"properties": {
+		"folder": {
+			"name": "POS Transaction"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsposdata",
+						"type": "DatasetReference"
+					},
+					"name": "dsminmaxkot"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimMinMaxKot_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimMinMaxKot"
+				}
+			],
+			"transformations": [
+				{
+					"name": "arminmaxkot"
+				}
+			],
+			"script": "source(output(\n\t\tGroupID as string,\n\t\tClientID as string,\n\t\tPosCode as string,\n\t\tBillMadeDateTime as timestamp,\n\t\tBillNo as string,\n\t\tMinKotNo as string,\n\t\tMaxKotNo as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'select \\n    \\'002\\' GroupID,\\n    \\'000\\' ClientID,\\n    PosCode, \\n    isnull(BillMadeDateTime,\\'1900-01-01\\') BillMadeDateTime, \\n    isnull(BillNo,\\'\\') BillNo, \\n    MIN(isnull(KotNo,\\'\\')) MinKotNo, \\n    MAX(isnull(KotNo,\\'\\')) MaxKotNo \\nfrom QFile.TblBillOrderLink with(nolock) \\ngroup by POSCode, \\n\tBillMadeDateTime, \\n\tBillNo',\n\tformat: 'query') ~> dsminmaxkot\ndsminmaxkot alterRow(upsertIf(true())) ~> arminmaxkot\narminmaxkot sink(input(\n\t\tMinMaxKotID as integer,\n\t\tPOSCode as string,\n\t\tBillNo as string,\n\t\tBillDateTime as timestamp,\n\t\tMinKotNo as string,\n\t\tMinKotDateTime as timestamp,\n\t\tMaxKotNo as string,\n\t\tMaxKotDateTime as timestamp,\n\t\tGroupId as string,\n\t\tClientId as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['POSCode','BillDateTime'],\n\tformat: 'table',\n\tmapColumn(\n\t\tPOSCode = PosCode,\n\t\tBillNo,\n\t\tBillDateTime = BillMadeDateTime,\n\t\tMinKotNo,\n\t\tMaxKotNo,\n\t\tGroupId = GroupID,\n\t\tClientId = ClientID\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimMinMaxKot"
+		}
+	}
+}

@@ -1,0 +1,61 @@
+{
+	"name": "DimBOTBillNo_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "BOT"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "DimBOTBillNoID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BOTBillId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ReservationId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "InterfaceCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BillNo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BillDateTime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "BillAmount",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "Paymode",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimBOTBillNo"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

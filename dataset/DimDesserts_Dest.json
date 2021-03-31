@@ -1,0 +1,43 @@
+{
+	"name": "DimDesserts_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "DepartmentID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			},
+			{
+				"name": "DepartmentCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DepartmentDescription",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimDepartmentMst"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

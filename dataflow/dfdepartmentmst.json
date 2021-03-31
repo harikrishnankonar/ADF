@@ -1,0 +1,35 @@
+{
+	"name": "dfdepartmentmst",
+	"properties": {
+		"folder": {
+			"name": "POSMaster"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsposdata",
+						"type": "DatasetReference"
+					},
+					"name": "dsdepartmentmst"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimDepartmentMst_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimDepartmentMst"
+				}
+			],
+			"transformations": [
+				{
+					"name": "ardepartmentmst"
+				}
+			],
+			"script": "source(output(\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tDepartmentCode as integer,\n\t\tDepartmentDescription as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select (Select top 1 Left(GroupId,3) as GroupId from tblinstallationdetails) as GroupId\\n, (Select top 1 Left(ClientId,3) as ClientId from tblinstallationdetails) as ClientId\\n,  DepartmentCode, DepartmentDescription from [TblDepartmentMst] with(nolock)',\n\tformat: 'query') ~> dsdepartmentmst\ndsdepartmentmst alterRow(upsertIf(true())) ~> ardepartmentmst\nardepartmentmst sink(input(\n\t\tDepartmentID as integer,\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tDepartmentCode as integer,\n\t\tDepartmentDescription as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['DepartmentCode'],\n\tformat: 'table',\n\tmapColumn(\n\t\tGroupId,\n\t\tClientId,\n\t\tDepartmentCode,\n\t\tDepartmentDescription\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimDepartmentMst"
+		}
+	}
+}

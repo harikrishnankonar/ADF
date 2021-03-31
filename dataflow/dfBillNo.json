@@ -1,0 +1,31 @@
+{
+	"name": "dfBillNo",
+	"properties": {
+		"folder": {
+			"name": "POS Transaction"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsdwsourcedb",
+						"type": "DatasetReference"
+					},
+					"name": "dsBillNo"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimBillNo_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimBillNo"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tGroupID as string,\n\t\tClientID as string,\n\t\tPOSCode as string,\n\t\tBillNo as string,\n\t\tBillDate as timestamp,\n\t\tBillAmount as decimal(38,8),\n\t\tBillTax as decimal(38,8),\n\t\tBillDiscount as decimal(38,8),\n\t\tBillRoundOffAmount as decimal(38,8),\n\t\tPartyName as string,\n\t\tBillSettleDateTime as timestamp,\n\t\tBillMadeDateTime as timestamp,\n\t\tDiscountRemark as string,\n\t\tCustomerName as string,\n\t\tDiscountCardNo as string,\n\t\tGeneralRemark as string,\n\t\tGuestName as string,\n\t\tMemberCode as string,\n\t\tMemberName as string,\n\t\tMemberShipCode as string,\n\t\tGSTINNumber as string,\n\t\tGSTCustName as string,\n\t\tGSTCustAddress as string,\n\t\tGSTCustStateCode as string,\n\t\tParentBillNo as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select \\'000\\'GroupID, \\'000\\' ClientID, POSCode, BillNo, SettleDate as BillDate, BillAmount, Totaltax as BillTax, TotalDiscount as BillDiscount, RoundOffAmount as BillRoundOffAmount, IsNull(PartyName,\\'\\') as PartyName \\n, BillSettleDateTime , BillMadeDateTime , IsNull(DiscountRemark,\\'\\') as DiscountRemark ,IsNull(CustomerName,\\'\\') as CustomerName, IsNull(DiscountCardNo,\\'\\') as DiscountCardNo\\n, IsNull(GeneralRemark,\\'\\') as GeneralRemark, IsNull(GuestName,\\'\\') as GuestName\\n, IsNull(MemberCode,\\'\\') as MemberCode, IsNull(MemberName,\\'\\') as MemberName, IsNull(MemberShipCode,\\'\\') as  MemberShipCode\\n, GSTINNumber\t\\n, GSTCustName\t\\n, GSTCustAddress\t\\n, GSTCustStateCode\\n, ParentBillNo\\nfrom DimBillOrderHead with(nolock)',\n\tformat: 'query') ~> dsBillNo\ndsBillNo sink(input(\n\t\tDimBillNoID as integer,\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tPOSCode as string,\n\t\tBillNo as string,\n\t\tBillDate as timestamp,\n\t\tBillAmount as decimal(38,8),\n\t\tBillTax as decimal(38,8),\n\t\tBillDiscount as decimal(38,8),\n\t\tBillRoundOffAmount as decimal(38,8),\n\t\tPartyName as string,\n\t\tBillMadeDateTime as timestamp,\n\t\tBillSettleDateTime as timestamp,\n\t\tCustomerName as string,\n\t\tDiscountRemark as string,\n\t\tDiscountCardNo as string,\n\t\tGeneralRemark as string,\n\t\tGuestName as string,\n\t\tMemberCode as string,\n\t\tMemberName as string,\n\t\tMemberShipCode as string,\n\t\tParentBillNo as string,\n\t\tGSTINNumber as string,\n\t\tGSTCustName as string,\n\t\tGSTCustAddress as string,\n\t\tGSTCustStateCode as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tmapColumn(\n\t\tGroupId = GroupID,\n\t\tClientId = ClientID,\n\t\tPOSCode,\n\t\tBillNo,\n\t\tBillDate,\n\t\tBillAmount,\n\t\tBillTax,\n\t\tBillDiscount,\n\t\tBillRoundOffAmount,\n\t\tPartyName,\n\t\tBillMadeDateTime,\n\t\tBillSettleDateTime,\n\t\tCustomerName,\n\t\tDiscountRemark,\n\t\tDiscountCardNo,\n\t\tGeneralRemark,\n\t\tGuestName,\n\t\tMemberCode,\n\t\tMemberName,\n\t\tMemberShipCode,\n\t\tParentBillNo,\n\t\tGSTINNumber,\n\t\tGSTCustName,\n\t\tGSTCustAddress,\n\t\tGSTCustStateCode\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimBillNo"
+		}
+	}
+}

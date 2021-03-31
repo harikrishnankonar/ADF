@@ -1,0 +1,131 @@
+{
+	"name": "DimBillOrderTax_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "BillOrderTaxID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			},
+			{
+				"name": "POSCode",
+				"type": "nchar"
+			},
+			{
+				"name": "PropertyCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "RegionCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BrandCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CountryCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BillOrder",
+				"type": "char"
+			},
+			{
+				"name": "BillNo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BillDateTime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "SerialNo",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "MenuItemCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MenuHeadCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CostCenterCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IncomeHeadCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "TaxCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TaxAmount",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "TaxableAmount",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "TDHCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "kioskcode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ShiftCode",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimBillOrderTax"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,35 @@
+{
+	"name": "dfbotbookingsourcemst",
+	"properties": {
+		"folder": {
+			"name": "BOT Master"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsdwsbotourcedb",
+						"type": "DatasetReference"
+					},
+					"name": "dsbotbookingsourcemst"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimBookingSource_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimBookingSourceMst"
+				}
+			],
+			"transformations": [
+				{
+					"name": "arbotbookingsourcemst"
+				}
+			],
+			"script": "source(output(\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tBookingSourceID as integer,\n\t\tBookingSourceName as string,\n\t\tInterfaceId as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select \\'002\\' as GroupId, \\'000\\' as ClientId,Id as BookingSourceID, InterfaceName as BookingSourceName  , 0 as InterfaceId \\nfrom tblbotinterfacetocodes',\n\tformat: 'query') ~> dsbotbookingsourcemst\ndsbotbookingsourcemst alterRow(upsertIf(true())) ~> arbotbookingsourcemst\narbotbookingsourcemst sink(input(\n\t\tDimBookingSourceID as integer,\n\t\tBookingSourceId as integer,\n\t\tBookingSourceName as string,\n\t\tInterfaceId as integer,\n\t\tGroupId as string,\n\t\tClientId as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['BookingSourceId'],\n\tformat: 'table',\n\tmapColumn(\n\t\tBookingSourceId = BookingSourceID,\n\t\tBookingSourceName,\n\t\tInterfaceId,\n\t\tGroupId,\n\t\tClientId\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimBookingSourceMst"
+		}
+	}
+}

@@ -1,0 +1,124 @@
+{
+	"name": "FactBillOrderCollection_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "FactBillOrderCollectionID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POSID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PropertyID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "RegionID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BrandID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CountryID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BillID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BillDateID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PaymentModeID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PaymentSubTypeID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CollectionAmount",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "CollectionTip",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "CollectionReturn",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "PosRegionID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "OverCounterSalesID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "UserId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BillOrderCollectionID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BillSettled_POSShiftId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BillMade_POSShiftId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ComplimentID",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "FactBillOrderCollection"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

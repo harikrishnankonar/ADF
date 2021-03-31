@@ -1,0 +1,35 @@
+{
+	"name": "dfkotorder",
+	"properties": {
+		"folder": {
+			"name": "POS Transaction"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsposdata",
+						"type": "DatasetReference"
+					},
+					"name": "dskotorder"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimKOTOrder_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimKOTOrder"
+				}
+			],
+			"transformations": [
+				{
+					"name": "arkotorder"
+				}
+			],
+			"script": "source(output(\n\t\tGroupID as string,\n\t\tClientID as string,\n\t\tPoscode as string,\n\t\tKotDate as timestamp,\n\t\tKotNo as string,\n\t\tKOTDateTime as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'select \\n\\'002\\' GroupID,\\n\\'000\\' ClientID, \\nIsNull(Poscode,\\'\\') as Poscode, \\nIsNull(BillMadeDate,\\'1900-01-01\\')as  KotDate, \\nIsNull(BillNo,\\'\\') as  KotNo, \\nIsNull(BillDateTime,\\'1900-01-01\\') as  KOTDateTime \\nfrom QFile.TblBillOrderHead with(nolock) \\nwhere  BillOrder= \\'K\\'',\n\tformat: 'query') ~> dskotorder\ndskotorder alterRow(insertIf(true())) ~> arkotorder\narkotorder sink(input(\n\t\tKotOrderID as integer,\n\t\tPOSCode as string,\n\t\tKOTNo as string,\n\t\tKOTDateTime as timestamp,\n\t\tGroupId as string,\n\t\tClientId as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tmapColumn(\n\t\tPOSCode = Poscode,\n\t\tKOTNo = KotNo,\n\t\tKOTDateTime,\n\t\tGroupId = GroupID,\n\t\tClientId = ClientID\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimKOTOrder"
+		}
+	}
+}

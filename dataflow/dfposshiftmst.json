@@ -1,0 +1,35 @@
+{
+	"name": "dfposshiftmst",
+	"properties": {
+		"folder": {
+			"name": "POSMaster"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsposdata",
+						"type": "DatasetReference"
+					},
+					"name": "dsposshiftmst"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimPOSShift_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimPosShiftMst"
+				}
+			],
+			"transformations": [
+				{
+					"name": "arposshiftmst"
+				}
+			],
+			"script": "source(output(\n\t\tPosCode as string,\n\t\tPOSShift as integer,\n\t\tPOSHrsFrom as string,\n\t\tPOSToHrs as string,\n\t\tPOSMhrsFrom as integer,\n\t\tPOSMtoHrs as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select IsNull(POSCode,\\'\\') as PosCode\\n,IsNull(POSShift,0) as POSShift\\n,IsNull(POSHrsFrom,\\'\\') as POSHrsFrom\\n,IsNull(POSToHrs,\\'\\') as POSToHrs\\n,IsNull(POSMhrsFrom,0) as POSMhrsFrom\\n,IsNull(POSMtoHrs,0) as POSMtoHrs\\n from tblPosTime  with(nolock)',\n\tformat: 'query') ~> dsposshiftmst\ndsposshiftmst alterRow(upsertIf(true())) ~> arposshiftmst\narposshiftmst sink(input(\n\t\tPOSShiftId as integer,\n\t\tPOSCode as string,\n\t\tPOSShift as integer,\n\t\tPOSHrsFrom as string,\n\t\tPOSToHrs as string,\n\t\tPOSMhrsFrom as integer,\n\t\tPOSMtoHrs as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['POSCode','POSShift'],\n\tformat: 'table',\n\tmapColumn(\n\t\tPOSCode = PosCode,\n\t\tPOSShift,\n\t\tPOSHrsFrom,\n\t\tPOSToHrs,\n\t\tPOSMhrsFrom,\n\t\tPOSMtoHrs\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimPosShiftMst"
+		}
+	}
+}

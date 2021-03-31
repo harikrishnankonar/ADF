@@ -1,0 +1,54 @@
+{
+	"name": "DimViodBillKot_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "VoidBillKotID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			},
+			{
+				"name": "POSCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BillNo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MadeTime",
+				"type": "varchar"
+			},
+			{
+				"name": "SettleTime",
+				"type": "varchar"
+			},
+			{
+				"name": "BillTime",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimViodBillKot"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

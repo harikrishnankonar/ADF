@@ -1,0 +1,60 @@
+{
+	"name": "DimTaxMst_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "TaxID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			},
+			{
+				"name": "TaxCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POSCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TaxDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TaxGroupCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "TaxGroupDescription",
+				"type": "varchar"
+			},
+			{
+				"name": "TaxType",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimTaxMst"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

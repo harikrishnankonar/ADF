@@ -1,0 +1,270 @@
+{
+	"name": "FactBillOrderVoidHead",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "FactBOHVoidID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BillOrderHeadVoidID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POSID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PropertyID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "RegionID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BrandID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CountryID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BillDateID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SettleDateID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupSizeID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BillNo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BillAmount",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "BillTime",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SettleTime",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Pax",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "TableID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "KOTTypeID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DessertsItemSold",
+				"type": "bit"
+			},
+			{
+				"name": "TeaItemSold",
+				"type": "bit"
+			},
+			{
+				"name": "DimsumItemSold",
+				"type": "bit"
+			},
+			{
+				"name": "EmployeeID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "TotalTax",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "TotalDiscount",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "RoundOffAmount",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "Complimentory",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "ComplimentoryType",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "TotalTipAmount",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "CashID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CreditCardID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "TableTurnAroundDuration",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BillMadeSettleDuration",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PayCompliment",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ComplimentID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NetAmount",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "AvgPerCover",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "AvgPerCover01",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "SettlementHourID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BillID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "MealId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DimStyleofOperationID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DimDiscCardID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "AdditionalCharge",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 8
+			},
+			{
+				"name": "UserID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "VoidReasonID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "VoidUserID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "WaiterId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BillKOTTypeId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BillMade_POSShiftId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "VoidBillKotID",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "FactBillOrderVoidHead"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

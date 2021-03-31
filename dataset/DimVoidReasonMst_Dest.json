@@ -1,0 +1,47 @@
+{
+	"name": "DimVoidReasonMst_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "VoidReasonID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "VoidReasonCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "VoidReasonDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StockUpdation",
+				"type": "char"
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimVoidReasonMst"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,34 @@
+{
+	"name": "DimCompliment_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ComplimentID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ComplimentCode",
+				"type": "bit"
+			},
+			{
+				"name": "ComplimentDescription",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimCompliment"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

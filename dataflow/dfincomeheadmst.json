@@ -1,0 +1,35 @@
+{
+	"name": "dfincomeheadmst",
+	"properties": {
+		"folder": {
+			"name": "POSMaster"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsposdata",
+						"type": "DatasetReference"
+					},
+					"name": "dsincomeheadmst"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimIncomeHeadMst_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimIncomeHeadMst"
+				}
+			],
+			"transformations": [
+				{
+					"name": "arincomeheadmst"
+				}
+			],
+			"script": "source(output(\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tIncomeHeadCode as integer,\n\t\tIncomeHeadDescription as string,\n\t\tIncomeHeadGroupCode as integer,\n\t\tIncomeHeadGroupDescription as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select (Select top 1 Left(GroupId,3) as GroupId from tblinstallationdetails) as GroupId\\n, (Select top 1 Left(ClientId,3) as ClientId from tblinstallationdetails) as ClientId\\n, t1.IncomeHeadCode, t1.IncomeHeadDescription, \\nisnull(t3.IncomeHeadGroupCode,0) IncomeHeadGroupCode, \\nisnull(t3.IncomeHeadGroupDescription,\\' \\') IncomeHeadGroupDescription\\nfrom [TblIncomeHeadMst] t1 with(nolock)\\nleft outer join [TblIncomeHeadGrpLinkMst] t2 with(nolock) on t1.IncomeHeadCode = t2.IncomeHeadCode\\nleft outer join [TblIncomeHeadGroupMst] t3 with(nolock) on t2.IncomeHeadGroupCode = t3.IncomeHeadGroupCode',\n\tformat: 'query') ~> dsincomeheadmst\ndsincomeheadmst alterRow(upsertIf(true())) ~> arincomeheadmst\narincomeheadmst sink(input(\n\t\tIncomeHeadID as integer,\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tIncomeHeadCode as integer,\n\t\tIncomeHeadDescription as string,\n\t\tIncomeHeadGroupCode as integer,\n\t\tIncomeHeadGroupDescription as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['IncomeHeadCode'],\n\tformat: 'table',\n\tmapColumn(\n\t\tGroupId,\n\t\tClientId,\n\t\tIncomeHeadCode,\n\t\tIncomeHeadDescription,\n\t\tIncomeHeadGroupCode,\n\t\tIncomeHeadGroupDescription\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimIncomeHeadMst"
+		}
+	}
+}

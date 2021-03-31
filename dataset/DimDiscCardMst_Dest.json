@@ -1,0 +1,65 @@
+{
+	"name": "DimDiscCardMst_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "DimDiscCardID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DiscCardCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DepartmentCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DiscCardDetailsCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			},
+			{
+				"name": "DiscCardName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ValidFrom",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "ValidTo",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimDiscCardMst"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,53 @@
+{
+	"name": "DimPosShiftMst_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "POSShiftId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POSCode",
+				"type": "nchar"
+			},
+			{
+				"name": "POSShift",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POSHrsFrom",
+				"type": "char"
+			},
+			{
+				"name": "POSToHrs",
+				"type": "char"
+			},
+			{
+				"name": "POSMhrsFrom",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POSMtoHrs",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimPOSShift"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

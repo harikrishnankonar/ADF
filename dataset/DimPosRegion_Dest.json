@@ -1,0 +1,34 @@
+{
+	"name": "DimPosRegion_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "PosRegionID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PosRegionCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PosRegionDescription",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimPosRegion"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

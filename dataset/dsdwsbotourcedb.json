@@ -1,0 +1,16 @@
+{
+	"name": "dsdwsbotourcedb",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dsbotdata",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "BOT"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

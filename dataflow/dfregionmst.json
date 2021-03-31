@@ -1,0 +1,35 @@
+{
+	"name": "dfregionmst",
+	"properties": {
+		"folder": {
+			"name": "POSMaster"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsposdata",
+						"type": "DatasetReference"
+					},
+					"name": "dsregionmst"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimRegionMst_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimRegionMst"
+				}
+			],
+			"transformations": [
+				{
+					"name": "arregionmst"
+				}
+			],
+			"script": "source(output(\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tRegionCode as integer,\n\t\tRegionDescription as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select (Select top 1 Left(GroupId,3) as GroupId from tblinstallationdetails) as GroupId\\n, (Select top 1 Left(ClientId,3) as ClientId from tblinstallationdetails) as ClientId\\n, RegionCode, RegionDescription from [TblRegionMst] with(nolock)',\n\tformat: 'query') ~> dsregionmst\ndsregionmst alterRow(upsertIf(true())) ~> arregionmst\narregionmst sink(input(\n\t\tRegionID as integer,\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tRegionCode as integer,\n\t\tRegionDescription as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['RegionCode'],\n\tformat: 'table',\n\tmapColumn(\n\t\tGroupId,\n\t\tClientId,\n\t\tRegionCode,\n\t\tRegionDescription\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimRegionMst"
+		}
+	}
+}

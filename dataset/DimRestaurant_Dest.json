@@ -1,0 +1,83 @@
+{
+	"name": "DimRestaurant_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "RestaurantID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			},
+			{
+				"name": "RestaurantCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "RestaurantDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CityID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CityDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LocationID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "LocationDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AvgMealRate",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PinCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RestaurantAddress",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CountryID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CountryDescription",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimRestaurant"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,43 @@
+{
+	"name": "DimMenuGroupMst_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "MenuGroupID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			},
+			{
+				"name": "MenuGroupCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "MenuGroupDescription",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimMenuGroupMst"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,35 @@
+{
+	"name": "dfbotbookermst",
+	"properties": {
+		"folder": {
+			"name": "BOT Master"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsdwsbotourcedb",
+						"type": "DatasetReference"
+					},
+					"name": "dsbotbookermst"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimBooker_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimBookerMst"
+				}
+			],
+			"transformations": [
+				{
+					"name": "arbotbookermst"
+				}
+			],
+			"script": "source(output(\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tBookerId as integer,\n\t\tBookerName as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select \\'002\\' as GroupId,\\'000\\' as ClientId ,BookerId, BookerName from tblbotbooker  with(nolock) where AccountId = 18',\n\tformat: 'query') ~> dsbotbookermst\ndsbotbookermst alterRow(upsertIf(true())) ~> arbotbookermst\narbotbookermst sink(input(\n\t\tDimBookerID as integer,\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tBookerID as integer,\n\t\tBookerName as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['BookerID'],\n\tformat: 'table',\n\tmapColumn(\n\t\tGroupId,\n\t\tClientId,\n\t\tBookerID = BookerId,\n\t\tBookerName\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimBookerMst"
+		}
+	}
+}

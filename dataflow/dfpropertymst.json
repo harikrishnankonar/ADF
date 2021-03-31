@@ -1,0 +1,35 @@
+{
+	"name": "dfpropertymst",
+	"properties": {
+		"folder": {
+			"name": "POSMaster"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsposdata",
+						"type": "DatasetReference"
+					},
+					"name": "dspropertymst"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimPropertyMst_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimPropertyMst"
+				}
+			],
+			"transformations": [
+				{
+					"name": "arpropertymst"
+				}
+			],
+			"script": "source(output(\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tPropertyCode as integer,\n\t\tPropertyDescription as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select (Select top 1 Left(GroupId,3) as GroupId from tblinstallationdetails) as GroupId\\n, (Select top 1 Left(ClientId,3) as ClientId from tblinstallationdetails) as ClientId \\n,  PropertyCode, PropertyDescription from [TblPropertyMst] with(nolock)',\n\tformat: 'query') ~> dspropertymst\ndspropertymst alterRow(upsertIf(true())) ~> arpropertymst\narpropertymst sink(input(\n\t\tPropertyID as integer,\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tPropertyCode as integer,\n\t\tPropertyDescription as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['PropertyCode'],\n\tformat: 'table',\n\tmapColumn(\n\t\tGroupId,\n\t\tClientId,\n\t\tPropertyCode,\n\t\tPropertyDescription\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimPropertyMst"
+		}
+	}
+}

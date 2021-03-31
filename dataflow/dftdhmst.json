@@ -1,0 +1,35 @@
+{
+	"name": "dftdhmst",
+	"properties": {
+		"folder": {
+			"name": "POSMaster"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsposdata",
+						"type": "DatasetReference"
+					},
+					"name": "dstdhmst"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimTDHMst_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimTdhMst"
+				}
+			],
+			"transformations": [
+				{
+					"name": "artdhmst"
+				}
+			],
+			"script": "source(output(\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tTDHCode as string,\n\t\tTDHDescription as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select (Select top 1 Left(GroupId,3) as GroupId from tblinstallationdetails) as GroupId\\n, (Select top 1 Left(ClientId,3) as ClientId from tblinstallationdetails) as ClientId\\n,  TDHCode, TDHDescription from [TblTDHMst] with(nolock)',\n\tformat: 'query') ~> dstdhmst\ndstdhmst alterRow(upsertIf(true())) ~> artdhmst\nartdhmst sink(input(\n\t\tTDHID as integer,\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tTDHCode as string,\n\t\tTDHDescription as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['TDHCode'],\n\tformat: 'table',\n\tmapColumn(\n\t\tGroupId,\n\t\tClientId,\n\t\tTDHCode,\n\t\tTDHDescription\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimTdhMst"
+		}
+	}
+}

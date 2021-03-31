@@ -1,0 +1,47 @@
+{
+	"name": "DimStatusMst_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "BOT"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "DimStatusID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			},
+			{
+				"name": "StatusID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Desc",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StatusGroup",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimStatus"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

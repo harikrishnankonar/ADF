@@ -1,0 +1,108 @@
+{
+	"name": "DimBillOrderCollection_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "BillOrderCollectionID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			},
+			{
+				"name": "POSCode",
+				"type": "nchar"
+			},
+			{
+				"name": "PropertyCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "RegionCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BrandCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CountryCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CollectionType",
+				"type": "char"
+			},
+			{
+				"name": "BillNo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BillDateTime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "PaymentModeCode",
+				"type": "char"
+			},
+			{
+				"name": "PaymentCode",
+				"type": "varchar"
+			},
+			{
+				"name": "CollectionAmount",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "CollectionTip",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "CollectionReturn",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ShiftCode",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimBillOrderCollection"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

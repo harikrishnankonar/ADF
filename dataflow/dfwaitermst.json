@@ -1,0 +1,35 @@
+{
+	"name": "dfwaitermst",
+	"properties": {
+		"folder": {
+			"name": "POSMaster"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsposdata",
+						"type": "DatasetReference"
+					},
+					"name": "dswaitermst"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimWaiterMst_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimWaiterMst"
+				}
+			],
+			"transformations": [
+				{
+					"name": "arwaitermst"
+				}
+			],
+			"script": "source(output(\n\t\tEmployeeCode as string,\n\t\tWaiterName as string,\n\t\tPosCode as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select T1.EmployeeCode, T2.EmployeeName as WaiterName , T1.PosCode from tblServiceStaffmst  T1 with(nolock)\\nleft Outer Join tblEmployeeMst t2 with(nolock) on T1.EmployeeCode  = T2.EmployeeCode',\n\tformat: 'query') ~> dswaitermst\ndswaitermst alterRow(upsertIf(true())) ~> arwaitermst\narwaitermst sink(input(\n\t\tWaiterID as integer,\n\t\tEmployeeCode as string,\n\t\tWaiterName as string,\n\t\tPosCode as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['EmployeeCode','PosCode'],\n\tformat: 'table',\n\tmapColumn(\n\t\tEmployeeCode,\n\t\tWaiterName,\n\t\tPosCode\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimWaiterMst"
+		}
+	}
+}

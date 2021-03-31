@@ -1,0 +1,60 @@
+{
+	"name": "DimMenuItemMst_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "MenuItemID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			},
+			{
+				"name": "MenuItemCode",
+				"type": "nchar"
+			},
+			{
+				"name": "MenuItemDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Indicator",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IncomeHeadCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IncomeHeadDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VegNonVegIndicator",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimMenuItemMst"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

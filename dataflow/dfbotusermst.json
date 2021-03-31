@@ -1,0 +1,35 @@
+{
+	"name": "dfbotusermst",
+	"properties": {
+		"folder": {
+			"name": "BOT Master"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsdwsbotourcedb",
+						"type": "DatasetReference"
+					},
+					"name": "dsbotusermst"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimBOTUser_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimBOTUserMst"
+				}
+			],
+			"transformations": [
+				{
+					"name": "arbotusermst"
+				}
+			],
+			"script": "source(output(\n\t\tUserId as integer,\n\t\tName as string,\n\t\tEmailId as string,\n\t\tIsRetired as string,\n\t\tIsSuper as string,\n\t\tSysyem as string,\n\t\tGroupId as string,\n\t\tClientId as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select UserId,IsNull(Name,\\'\\') as Name,IsNull(EmailId,\\'\\') as EmailId, Case When IsRetire = 0 Then \\'No\\' else \\'Yes\\' End as IsRetired\t, Case When IsSuper = 0 Then \\'No\\' else \\'Yes\\' End as IsSuper,IsNull(System,\\'\\') as [Sysyem], \\'002\\'as GroupId, \\'000\\' as ClientId\\nfrom tblFMUser where AccountId = 18',\n\tformat: 'query') ~> dsbotusermst\ndsbotusermst alterRow(upsertIf(true())) ~> arbotusermst\narbotusermst sink(input(\n\t\tBOTUserID as integer,\n\t\tUserID as integer,\n\t\tName as string,\n\t\tEmail as string,\n\t\tIsRetire as string,\n\t\tIsSuper as string,\n\t\tSystem as string,\n\t\tGroupId as string,\n\t\tClientId as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['UserID'],\n\tformat: 'table',\n\tmapColumn(\n\t\tUserID = UserId,\n\t\tName,\n\t\tEmail = EmailId,\n\t\tIsRetire = IsRetired,\n\t\tIsSuper,\n\t\tSystem = Sysyem,\n\t\tGroupId,\n\t\tClientId\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimBOTUserMst"
+		}
+	}
+}

@@ -1,0 +1,108 @@
+{
+	"name": "DimBillOrderLink_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "BillOrderLinkId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			},
+			{
+				"name": "POSCode",
+				"type": "nchar"
+			},
+			{
+				"name": "PropertyCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "RegionCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BrandCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CountryCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ParentBillNo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BillNo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "KOTNo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BillMadeDateTime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "BillVoidDateTime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "BillMadeBy",
+				"type": "nchar"
+			},
+			{
+				"name": "BillVoidedBy",
+				"type": "nchar"
+			},
+			{
+				"name": "Voided",
+				"type": "bit"
+			},
+			{
+				"name": "LinkBillDocNo",
+				"type": "nchar"
+			},
+			{
+				"name": "CreatedDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "CreatedBy",
+				"type": "nchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimBillOrderLink"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

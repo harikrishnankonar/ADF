@@ -1,0 +1,52 @@
+{
+	"name": "DimMemberMst_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "MemberID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			},
+			{
+				"name": "MemberCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "MemberName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MemberCategoryCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BlackListed",
+				"type": "bit"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimMemberMst"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

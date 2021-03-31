@@ -1,0 +1,35 @@
+{
+	"name": "dfpricecategorymst",
+	"properties": {
+		"folder": {
+			"name": "POSMaster"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsposdata",
+						"type": "DatasetReference"
+					},
+					"name": "dspricecategorymst"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimPriceCategoryMst_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimPriceCategoryMst"
+				}
+			],
+			"transformations": [
+				{
+					"name": "arpricecategorymst"
+				}
+			],
+			"script": "source(output(\n\t\tPriceCategoryCode as string,\n\t\tPriceCategoryDescription as string,\n\t\tPriceCategoryGroupCode as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select PriceCategoryCode, PriceCategoryDescription, PriceCategoryGroupCode from TblPriceCategoryMst',\n\tformat: 'query') ~> dspricecategorymst\ndspricecategorymst alterRow(upsertIf(true())) ~> arpricecategorymst\narpricecategorymst sink(input(\n\t\tPriceCategoryMasterId as integer,\n\t\tPriceCategoryCode as string,\n\t\tPriceCategoryDescription as string,\n\t\tPriceCategoryGroupCode as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['PriceCategoryCode'],\n\tformat: 'table',\n\tmapColumn(\n\t\tPriceCategoryCode,\n\t\tPriceCategoryDescription,\n\t\tPriceCategoryGroupCode\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimPriceCategoryMst"
+		}
+	}
+}

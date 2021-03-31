@@ -1,0 +1,35 @@
+{
+	"name": "dfmenuheadmst",
+	"properties": {
+		"folder": {
+			"name": "POSMaster"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsposdata",
+						"type": "DatasetReference"
+					},
+					"name": "dsmenuheadmst"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimMenuHeadMst_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimMenuHeadMst"
+				}
+			],
+			"transformations": [
+				{
+					"name": "armenuheadmst"
+				}
+			],
+			"script": "source(output(\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tPOSCode as string,\n\t\tMenuHeadCode as string,\n\t\tMenuHeadDescription as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select (Select top 1 Left(GroupId,3) as GroupId from tblinstallationdetails) as GroupId\\n, (Select top 1 Left(ClientId,3) as ClientId from tblinstallationdetails) as ClientId\\n, ltrim(rtrim(POSCode)) as POSCode, ltrim(rtrim(MenuHeadCode)) as MenuHeadCode, ltrim(rtrim(MenuHeadDescription)) as MenuHeadDescription from [TblMenuHeadMst] with(nolock)',\n\tformat: 'query') ~> dsmenuheadmst\ndsmenuheadmst alterRow(upsertIf(true())) ~> armenuheadmst\narmenuheadmst sink(input(\n\t\tMenuHeadID as integer,\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tPOSCode as string,\n\t\tMenuHeadCode as integer,\n\t\tMenuHeadDescription as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['POSCode','MenuHeadCode'],\n\tformat: 'table',\n\tmapColumn(\n\t\tGroupId,\n\t\tClientId,\n\t\tPOSCode,\n\t\tMenuHeadCode,\n\t\tMenuHeadDescription\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimMenuHeadMst"
+		}
+	}
+}

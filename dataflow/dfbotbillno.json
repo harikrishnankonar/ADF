@@ -1,0 +1,35 @@
+{
+	"name": "dfbotbillno",
+	"properties": {
+		"folder": {
+			"name": "BOT Master"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsdwsbotourcedb",
+						"type": "DatasetReference"
+					},
+					"name": "dsbotbillno"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimBOTBillNo_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimBOTBillNo"
+				}
+			],
+			"transformations": [
+				{
+					"name": "arbotbillno"
+				}
+			],
+			"script": "source(output(\n\t\tReservationId as integer,\n\t\tBOTBillId as integer,\n\t\tInterfaceCode as integer,\n\t\tBillNo as string,\n\t\tBillDateTime as timestamp,\n\t\tPaymode as string,\n\t\tBillAmount as decimal(18,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: '\tselect ISNull(ReservationId,\\'\\') as ReservationId\\n\t,IsNull(Id,0) as BOTBillId\\n\t, IsNull(InterfaceCode,0) as InterfaceCode\\n\t, IsNull(BillNo,\\'\\') as BillNo\\n\t, IsNull(SettlementDate,\\'\\') as BillDateTime\\n\t, IsNull(Paymode,\\'0\\') as Paymode\\n\t, IsNull(PayModeAmount,0) as BillAmount\\n\tfrom tblbotbillsettlement  with(nolock) \\n\twhere Restaurantid in  (Select RestaurantId from tblFMRestaurant where ISActive = 1  and IsCloud =0 and AccountID = 18)\\n\tand SettlementDate > \\'2021-01-31 23:59:59\\'',\n\tformat: 'query') ~> dsbotbillno\ndsbotbillno alterRow(upsertIf(true())) ~> arbotbillno\narbotbillno sink(input(\n\t\tDimBOTBillNoID as integer,\n\t\tBOTBillId as integer,\n\t\tReservationId as integer,\n\t\tInterfaceCode as integer,\n\t\tBillNo as string,\n\t\tBillDateTime as timestamp,\n\t\tBillAmount as decimal(38,8),\n\t\tPaymode as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['BOTBillId'],\n\tformat: 'table',\n\tmapColumn(\n\t\tBOTBillId,\n\t\tReservationId,\n\t\tInterfaceCode,\n\t\tBillNo,\n\t\tBillDateTime,\n\t\tBillAmount,\n\t\tPaymode\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimBOTBillNo"
+		}
+	}
+}

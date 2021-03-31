@@ -1,0 +1,74 @@
+{
+	"name": "DimMealStructure_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "BOT"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "DimMealStructureID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			},
+			{
+				"name": "MealStructureID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "MealStructure",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Description",
+				"type": "nvarchar"
+			},
+			{
+				"name": "OperationFromTime",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 2
+			},
+			{
+				"name": "OperationToTime",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 2
+			},
+			{
+				"name": "DefaultMealLength",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 2
+			},
+			{
+				"name": "MealSession",
+				"type": "nvarchar"
+			},
+			{
+				"name": "restaurantid",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimMealStructure"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

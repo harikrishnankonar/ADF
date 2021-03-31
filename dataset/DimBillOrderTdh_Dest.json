@@ -1,0 +1,129 @@
+{
+	"name": "DimBillOrderTdh_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "BillOrderTdhId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			},
+			{
+				"name": "POSCode",
+				"type": "nchar"
+			},
+			{
+				"name": "PropertyCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "RegionCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BrandCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CountryCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BillOrder",
+				"type": "char"
+			},
+			{
+				"name": "BillNo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BillDateTime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "SerialNo",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "TDHCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TDHNo",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "TDHSerialNo",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "TDHItemSerialNo",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Course",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DefaultItem",
+				"type": "bit"
+			},
+			{
+				"name": "MenuItemCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Quantity",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 8
+			},
+			{
+				"name": "ModifierApplied",
+				"type": "bit"
+			},
+			{
+				"name": "CreatedDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "CreatedBy",
+				"type": "nchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimBillOrderTdh"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

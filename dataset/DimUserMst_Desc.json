@@ -1,0 +1,51 @@
+{
+	"name": "DimUserMst_Desc",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "UserID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			},
+			{
+				"name": "UserCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FullName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EmployeeCode",
+				"type": "nchar"
+			},
+			{
+				"name": "UserShortName",
+				"type": "nchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimUser"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

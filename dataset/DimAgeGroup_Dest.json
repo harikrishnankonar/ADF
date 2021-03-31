@@ -1,0 +1,40 @@
+{
+	"name": "DimAgeGroup_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "AgeGroupID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FromAge",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ToAge",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "AgeGroupDescription",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimAgeGroup"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

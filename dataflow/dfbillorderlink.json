@@ -1,0 +1,35 @@
+{
+	"name": "dfbillorderlink",
+	"properties": {
+		"folder": {
+			"name": "POS Transaction"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsposdata",
+						"type": "DatasetReference"
+					},
+					"name": "dsbillorderlink"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimBillOrderLink_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimBillOrderLink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "arbillorderlink"
+				}
+			],
+			"script": "source(output(\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tPOSCode as string,\n\t\tPropertyCode as integer,\n\t\tRegionCode as integer,\n\t\tBrandCode as integer,\n\t\tCountryCode as integer,\n\t\tParentBillNo as string,\n\t\tBillNo as string,\n\t\tKOTNo as string,\n\t\tBillMadeDateTime as timestamp,\n\t\tBillVoidDateTime as timestamp,\n\t\tBillMadeBy as string,\n\t\tBillVoidedBy as string,\n\t\tVoided as boolean,\n\t\tLinkBillDocNo as string,\n\t\tCreatedDate as timestamp,\n\t\tCreatedBy as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select \\'002\\' GroupId, \\'000\\' ClientId,  POSCode ,PropertyCode,RegionCode,BrandCode, CountryCode,ParentBillNo,BillNo,KOTNo,BillMadeDateTime, BillVoidDateTime,BillMadeBy, BillVoidedBy, Voided,LinkBillDocNo,CreatedDate,CreatedBy from QFile.TblBillOrderLink',\n\tformat: 'query') ~> dsbillorderlink\ndsbillorderlink alterRow(insertIf(true())) ~> arbillorderlink\narbillorderlink sink(input(\n\t\tBillOrderLinkId as integer,\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tPOSCode as string,\n\t\tPropertyCode as integer,\n\t\tRegionCode as integer,\n\t\tBrandCode as integer,\n\t\tCountryCode as integer,\n\t\tParentBillNo as string,\n\t\tBillNo as string,\n\t\tKOTNo as string,\n\t\tBillMadeDateTime as timestamp,\n\t\tBillVoidDateTime as timestamp,\n\t\tBillMadeBy as string,\n\t\tBillVoidedBy as string,\n\t\tVoided as boolean,\n\t\tLinkBillDocNo as string,\n\t\tCreatedDate as timestamp,\n\t\tCreatedBy as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tmapColumn(\n\t\tGroupId,\n\t\tClientId,\n\t\tPOSCode,\n\t\tPropertyCode,\n\t\tRegionCode,\n\t\tBrandCode,\n\t\tCountryCode,\n\t\tParentBillNo,\n\t\tBillNo,\n\t\tKOTNo,\n\t\tBillMadeDateTime,\n\t\tBillVoidDateTime,\n\t\tBillMadeBy,\n\t\tBillVoidedBy,\n\t\tVoided,\n\t\tLinkBillDocNo,\n\t\tCreatedDate,\n\t\tCreatedBy\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimBillOrderLink"
+		}
+	}
+}

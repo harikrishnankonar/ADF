@@ -1,0 +1,35 @@
+{
+	"name": "dfmenuitemmst",
+	"properties": {
+		"folder": {
+			"name": "POSMaster"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsposdata",
+						"type": "DatasetReference"
+					},
+					"name": "dsmenuitemmst"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimMenuItemMst_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimMenuItemMst"
+				}
+			],
+			"transformations": [
+				{
+					"name": "armenuitemmst"
+				}
+			],
+			"script": "source(output(\n\t\tMenuItemCode as string,\n\t\tMenuItemDescription as string,\n\t\tIndicator as integer,\n\t\tIncomeHeadCode as integer,\n\t\tIncomeHeadDescription as string,\n\t\tVegNonVegIndicator as string,\n\t\tGroupId as string,\n\t\tClientId as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select MenuItemCode, MenuItemDescription, Indicator , T2.IncomeHeadCode, T2.IncomeHeadDescription,\\nCase When Indicator = 0 then \\'VEG\\' when Indicator = 1 then \\'NON-VEG\\' else \\'OTHER\\' end as VegNonVegIndicator\\n, (Select top 1 Left(GroupId,3) as GroupId from tblinstallationdetails) as GroupId\\n, (Select top 1 Left(ClientId,3) as ClientId from tblinstallationdetails) as ClientId\\nfrom [TblMenuItemMst] T1 with(nolock)\\ninner join [TblIncomeHeadMst] T2 with(nolock)  On T1.IncomeHeadCode = T2.IncomeHeadCode',\n\tformat: 'query') ~> dsmenuitemmst\ndsmenuitemmst alterRow(upsertIf(true())) ~> armenuitemmst\narmenuitemmst sink(input(\n\t\tMenuItemID as integer,\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tMenuItemCode as string,\n\t\tMenuItemDescription as string,\n\t\tIndicator as integer,\n\t\tIncomeHeadCode as integer,\n\t\tIncomeHeadDescription as string,\n\t\tVegNonVegIndicator as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['MenuItemCode'],\n\tformat: 'table',\n\tmapColumn(\n\t\tGroupId,\n\t\tClientId,\n\t\tMenuItemCode,\n\t\tMenuItemDescription,\n\t\tIndicator,\n\t\tIncomeHeadCode,\n\t\tIncomeHeadDescription,\n\t\tVegNonVegIndicator\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimMenuItemMst"
+		}
+	}
+}

@@ -1,0 +1,35 @@
+{
+	"name": "dfpartymst",
+	"properties": {
+		"folder": {
+			"name": "POSMaster"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsposdata",
+						"type": "DatasetReference"
+					},
+					"name": "dspartymst"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimPartyMst_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimPartyMst"
+				}
+			],
+			"transformations": [
+				{
+					"name": "arpartymst"
+				}
+			],
+			"script": "source(output(\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tPartyCode as integer,\n\t\tPartyDescription as string,\n\t\tPincode as string,\n\t\tDesignation as string,\n\t\tContactPerson as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select (Select top 1 Left(GroupId,3) as GroupId from tblinstallationdetails) as GroupId\\n, (Select top 1 Left(ClientId,3) as ClientId from tblinstallationdetails) as ClientId, \\nPartyCode,\\nPartyName PartyDescription,\\nPincode,\\nDesignation,\\nContactPerson\\n from [TblPartyMst] with(nolock)',\n\tformat: 'query') ~> dspartymst\ndspartymst alterRow(upsertIf(true())) ~> arpartymst\narpartymst sink(input(\n\t\tPartyID as integer,\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tPartyCode as integer,\n\t\tPartyDescription as string,\n\t\tPartyAddressLine1 as string,\n\t\tPartyAddressLine2 as string,\n\t\tPartyAddressLine3 as string,\n\t\tCityCode as integer,\n\t\tStateCode as integer,\n\t\tCountryCode as integer,\n\t\tPincode as string,\n\t\tTelephone1 as string,\n\t\tTelephone2 as string,\n\t\tTelephone3 as string,\n\t\tMobileNumber as string,\n\t\tFax as string,\n\t\tDesignation as string,\n\t\tBlackListed as boolean,\n\t\tPartyWebsite as string,\n\t\tPartyEmailId as string,\n\t\tContactPerson as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['PartyCode'],\n\tformat: 'table',\n\tmapColumn(\n\t\tGroupId,\n\t\tClientId,\n\t\tPartyCode,\n\t\tPartyDescription,\n\t\tPincode,\n\t\tDesignation,\n\t\tContactPerson\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimPartyMst"
+		}
+	}
+}

@@ -1,0 +1,43 @@
+{
+	"name": "DimKOTTypes_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "KOTTypeID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			},
+			{
+				"name": "KOTTypeCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "KOTTypeName",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimKOTTypes"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

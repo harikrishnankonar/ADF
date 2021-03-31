@@ -1,0 +1,35 @@
+{
+	"name": "dfovercountersalesmst",
+	"properties": {
+		"folder": {
+			"name": "POSMaster"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsposdata",
+						"type": "DatasetReference"
+					},
+					"name": "dsovercountersalesmst"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimOverCounterSalesMst_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimOverCounterSalesMst"
+				}
+			],
+			"transformations": [
+				{
+					"name": "arovercountersalesmst"
+				}
+			],
+			"script": "source(output(\n\t\tOverCounterSalesCode as string,\n\t\tOverCounterSalesDesc as string,\n\t\tIsActive as boolean,\n\t\tOptionNeumonic as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select OverCounterSalesCode, OverCounterSalesDesc, IsActive, OptionNeumonic From tblovercountersales',\n\tformat: 'query') ~> dsovercountersalesmst\ndsovercountersalesmst alterRow(upsertIf(true())) ~> arovercountersalesmst\narovercountersalesmst sink(input(\n\t\tOverCounterSalesId as integer,\n\t\tOverCounterSalesCode as string,\n\t\tOverCounterSalesDesc as string,\n\t\tIsActive as boolean,\n\t\tOptionNeumonic as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['OverCounterSalesCode'],\n\tformat: 'table',\n\tmapColumn(\n\t\tOverCounterSalesCode,\n\t\tOverCounterSalesDesc,\n\t\tIsActive,\n\t\tOptionNeumonic\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimOverCounterSalesMst"
+		}
+	}
+}

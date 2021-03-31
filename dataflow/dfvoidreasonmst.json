@@ -1,0 +1,35 @@
+{
+	"name": "dfvoidreasonmst",
+	"properties": {
+		"folder": {
+			"name": "POSMaster"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsposdata",
+						"type": "DatasetReference"
+					},
+					"name": "dsvoidreasonmst"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimVoidReasonMst_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimVoidReasonMst"
+				}
+			],
+			"transformations": [
+				{
+					"name": "arvoidreasonmst"
+				}
+			],
+			"script": "source(output(\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tVoidReasonCode as integer,\n\t\tVoidReasonDescription as string,\n\t\tStockUpdation as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select (Select top 1 Left(GroupId,3) as GroupId from tblinstallationdetails) as GroupId\\n, (Select top 1 Left(ClientId,3) as ClientId from tblinstallationdetails) as ClientId\\n, VoidReasonCode, VoidReasonDescription, Case when StockUpdate = 0 then \\'No\\' when StockUpdate = 1 then \\'Yes\\' else \\'0\\' End StockUpdation from [TblVoidReasonMst] with(nolock)',\n\tformat: 'query') ~> dsvoidreasonmst\ndsvoidreasonmst alterRow(upsertIf(true())) ~> arvoidreasonmst\narvoidreasonmst sink(input(\n\t\tVoidReasonID as integer,\n\t\tVoidReasonCode as integer,\n\t\tVoidReasonDescription as string,\n\t\tStockUpdation as string,\n\t\tGroupId as string,\n\t\tClientId as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['VoidReasonCode'],\n\tformat: 'table',\n\tmapColumn(\n\t\tVoidReasonCode,\n\t\tVoidReasonDescription,\n\t\tStockUpdation,\n\t\tGroupId,\n\t\tClientId\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimVoidReasonMst"
+		}
+	}
+}

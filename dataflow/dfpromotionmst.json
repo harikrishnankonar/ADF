@@ -1,0 +1,35 @@
+{
+	"name": "dfpromotionmst",
+	"properties": {
+		"folder": {
+			"name": "POSMaster"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsposdata",
+						"type": "DatasetReference"
+					},
+					"name": "dspromotionmst"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimPromotionMst_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimPromotionMst"
+				}
+			],
+			"transformations": [
+				{
+					"name": "arpromotionmst"
+				}
+			],
+			"script": "source(output(\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tPromotionCode as integer,\n\t\tPOSCode as string,\n\t\tPromotionName as string,\n\t\tDiscountInPer as decimal(18,2),\n\t\tDiscountAmt as decimal(18,8)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select (Select top 1 Left(GroupId,3) as GroupId from tblinstallationdetails) as GroupId\\n, (Select top 1 Left(ClientId,3) as ClientId from tblinstallationdetails) as ClientId\\n,  t1.PromotionCode, left(t1.POSCode,2) POSCode, t1.PromotionName, t2.DiscountInPer, t2.DiscountAmt From TblPromotionMst t1\\nleft outer join TblPromotionBuyGetDetails t2 on t1.PromotionCode = t2.PromotionCode',\n\tformat: 'query') ~> dspromotionmst\ndspromotionmst alterRow(upsertIf(true())) ~> arpromotionmst\narpromotionmst sink(input(\n\t\tDimPromotionMstID as integer,\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tPromotionCode as integer,\n\t\tPOSCode as string,\n\t\tPromotionName as string,\n\t\tDiscountinPer as decimal(18,2),\n\t\tDiscountAmt as decimal(18,2)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['POSCode','PromotionCode'],\n\tformat: 'table',\n\tmapColumn(\n\t\tGroupId,\n\t\tClientId,\n\t\tPromotionCode,\n\t\tPOSCode,\n\t\tPromotionName,\n\t\tDiscountinPer = DiscountInPer,\n\t\tDiscountAmt\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimPromotionMst"
+		}
+	}
+}

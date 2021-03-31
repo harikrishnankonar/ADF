@@ -1,0 +1,47 @@
+{
+	"name": "DimEvent_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "BOT"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "DimEventID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			},
+			{
+				"name": "EventID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "EventName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Description",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimEvent"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

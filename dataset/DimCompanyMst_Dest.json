@@ -1,0 +1,43 @@
+{
+	"name": "DimCompanyMst_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CompanyID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			},
+			{
+				"name": "CompanyCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CompanyDescription",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimCompanyMst"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

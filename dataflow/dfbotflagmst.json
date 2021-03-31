@@ -1,0 +1,35 @@
+{
+	"name": "dfbotflagmst",
+	"properties": {
+		"folder": {
+			"name": "BOT Master"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsdwsbotourcedb",
+						"type": "DatasetReference"
+					},
+					"name": "dsbotflagmst"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimFlag_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimFlagMst"
+				}
+			],
+			"transformations": [
+				{
+					"name": "arbotflagmst"
+				}
+			],
+			"script": "source(output(\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tFlagId as integer,\n\t\tFlag as string,\n\t\tImagePath as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select \\'002\\' as GroupId, \\'000\\' as ClientId, FlagId,Flag,ImagePath  from TblBOTFlagMaster  with(nolock) where AccountId = 18',\n\tformat: 'query') ~> dsbotflagmst\ndsbotflagmst alterRow(upsertIf(true())) ~> arbotflagmst\narbotflagmst sink(input(\n\t\tDimFlagID as integer,\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tFlagID as integer,\n\t\tFlag as string,\n\t\tImagePath as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['FlagID'],\n\tformat: 'table',\n\tmapColumn(\n\t\tGroupId,\n\t\tClientId,\n\t\tFlagID = FlagId,\n\t\tFlag,\n\t\tImagePath\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimFlagMst"
+		}
+	}
+}

@@ -1,0 +1,16 @@
+{
+	"name": "dsposdata",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqlpossourcedata",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

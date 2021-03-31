@@ -1,0 +1,30 @@
+{
+	"name": "DimNCTypeMst_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "NCTypeId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NCTypeName",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimNCTypeMst"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

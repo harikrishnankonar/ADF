@@ -1,0 +1,35 @@
+{
+	"name": "dfkioskmst",
+	"properties": {
+		"folder": {
+			"name": "POSMaster"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsposdata",
+						"type": "DatasetReference"
+					},
+					"name": "dskioskmst"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimKioskMst_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimKioskMst"
+				}
+			],
+			"transformations": [
+				{
+					"name": "arkioskmst"
+				}
+			],
+			"script": "source(output(\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tPosCode as string,\n\t\tKioskCode as integer,\n\t\tKioskName as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select (Select top 1 Left(GroupId,3) as GroupId from tblinstallationdetails) as GroupId\\n, (Select top 1 Left(ClientId,3) as ClientId from tblinstallationdetails) as ClientId\\n,  PosCode, KioskCode, KioskName from [TblKioskMst] with(nolock)',\n\tformat: 'query') ~> dskioskmst\ndskioskmst alterRow(upsertIf(true())) ~> arkioskmst\narkioskmst sink(input(\n\t\tKioskID as integer,\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tPOSCode as string,\n\t\tKioskCode as integer,\n\t\tKioskName as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['POSCode','KioskCode'],\n\tformat: 'table',\n\tmapColumn(\n\t\tGroupId,\n\t\tClientId,\n\t\tPOSCode = PosCode,\n\t\tKioskCode,\n\t\tKioskName\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimKioskMst"
+		}
+	}
+}

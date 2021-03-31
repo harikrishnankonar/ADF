@@ -1,0 +1,35 @@
+{
+	"name": "dfstatemst",
+	"properties": {
+		"folder": {
+			"name": "POSMaster"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsposdata",
+						"type": "DatasetReference"
+					},
+					"name": "dstatemst"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimStateMst_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimStateMst"
+				}
+			],
+			"transformations": [
+				{
+					"name": "arstatemst"
+				}
+			],
+			"script": "source(output(\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tStateCode as integer,\n\t\tStateDescription as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select (Select top 1 Left(GroupId,3) as GroupId from tblinstallationdetails) as GroupId\\n, (Select top 1 Left(ClientId,3) as ClientId from tblinstallationdetails) as ClientId\\n, StateCode, StateDescription from [TblStateMst] with(nolock)',\n\tformat: 'query') ~> dstatemst\ndstatemst alterRow(upsertIf(true())) ~> arstatemst\narstatemst sink(input(\n\t\tStateID as integer,\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tStateCode as integer,\n\t\tStateDescription as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['StateCode'],\n\tformat: 'table',\n\tmapColumn(\n\t\tGroupId,\n\t\tClientId,\n\t\tStateCode,\n\t\tStateDescription\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimStateMst"
+		}
+	}
+}

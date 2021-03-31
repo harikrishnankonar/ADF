@@ -1,0 +1,35 @@
+{
+	"name": "dfbotfloormst",
+	"properties": {
+		"folder": {
+			"name": "BOT Master"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsdwsbotourcedb",
+						"type": "DatasetReference"
+					},
+					"name": "dsbotfloormst"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimFloor_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimFloorMst"
+				}
+			],
+			"transformations": [
+				{
+					"name": "arbotfloormst"
+				}
+			],
+			"script": "source(output(\n\t\tClientId as string,\n\t\tGroupId as string,\n\t\tFloorId as integer,\n\t\tFloor as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'select \\'002\\' as ClientId, \\'000\\' as GroupId, T1.FloorId, T1.Floor \\nfrom tblbotfloor t1 with(nolock)\\nLeft Outer Join tblFMRestaurant t2 with(nolock) on t1.restaurantid = T2.restaurantid\\nwhere T2.AccountId = 18',\n\tformat: 'query') ~> dsbotfloormst\ndsbotfloormst alterRow(upsertIf(true())) ~> arbotfloormst\narbotfloormst sink(input(\n\t\tDimFloorID as integer,\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tFloorID as integer,\n\t\tFloor as string,\n\t\tImagePath as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['FloorID'],\n\tformat: 'table',\n\tmapColumn(\n\t\tGroupId,\n\t\tClientId,\n\t\tFloorID = FloorId,\n\t\tFloor\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimFloorMst"
+		}
+	}
+}

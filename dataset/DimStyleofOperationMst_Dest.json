@@ -1,0 +1,34 @@
+{
+	"name": "DimStyleofOperationMst_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "DimStyleofOperationID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "OrderFrom",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StyleofOperationDescription",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimStyleOfOperation"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,35 @@
+{
+	"name": "dfoptionmst",
+	"properties": {
+		"folder": {
+			"name": "POSMaster"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsposdata",
+						"type": "DatasetReference"
+					},
+					"name": "dsoptionmst"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimOptionMst_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimOptionMst"
+				}
+			],
+			"transformations": [
+				{
+					"name": "aroptionmst"
+				}
+			],
+			"script": "source(output(\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tOptionNeumonic as string,\n\t\tOptionName as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select (Select top 1 Left(GroupId,3) as GroupId from tblinstallationdetails) as GroupId\\n, (Select top 1 Left(ClientId,3) as ClientId from tblinstallationdetails) as ClientId\\n, OptionNeumonic, OptionName From TblOptions',\n\tformat: 'query') ~> dsoptionmst\ndsoptionmst alterRow(upsertIf(true())) ~> aroptionmst\naroptionmst sink(input(\n\t\tOptionID as integer,\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tOptionNeumonic as string,\n\t\tOptionName as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['OptionNeumonic'],\n\tformat: 'table',\n\tmapColumn(\n\t\tGroupId,\n\t\tClientId,\n\t\tOptionNeumonic,\n\t\tOptionName\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimOptionMst"
+		}
+	}
+}

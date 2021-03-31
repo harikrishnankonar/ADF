@@ -1,0 +1,35 @@
+{
+	"name": "dfbillorderprint",
+	"properties": {
+		"folder": {
+			"name": "POS Transaction"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsposdata",
+						"type": "DatasetReference"
+					},
+					"name": "dsbillorderprint"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimBillOrderPrint_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimBillOrderPrint"
+				}
+			],
+			"transformations": [
+				{
+					"name": "arbillorderprint"
+				}
+			],
+			"script": "source(output(\n\t\tGroupID as string,\n\t\tClientID as string,\n\t\tId as integer,\n\t\tPOSCode as string,\n\t\tPropertyCode as integer,\n\t\tRegionCode as integer,\n\t\tBrandCode as integer,\n\t\tCountryCode as integer,\n\t\tBillOrder as string,\n\t\tBillNo as string,\n\t\tVoidInstance as integer,\n\t\tPrintDate as timestamp,\n\t\tPrintTime as string,\n\t\tPrinter as string,\n\t\tPrintedAmount as decimal(18,8),\n\t\tCreatedDate as timestamp,\n\t\tCreatedBy as string,\n\t\tIsVoid as boolean,\n\t\tPrintReasonCode as integer,\n\t\tPrintReasonDescription as string,\n\t\tIsNcBill as boolean,\n\t\tOptionNeumonic as string,\n\t\tPaymentModeCode as string,\n\t\tSettleDate as timestamp,\n\t\tSettleTime as string,\n\t\tBillSettledBy as string,\n\t\tBillDateTime as timestamp,\n\t\tCollectionAmount as decimal(38,8),\n\t\tLinkBillNo as string,\n\t\tLinkBillDate as timestamp,\n\t\tLinkBillTime as string,\n\t\tTableNo as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select   \\'002\\' GroupID\\n, \\'000\\' ClientID\\n, T1.Id\\n, T1.POSCode\t\\n, T1.PropertyCode\t\\n, T1.RegionCode\t\\n, T1.BrandCode\t\\n, T1.CountryCode\t\\n, T1.BillOrder\t\\n, T1.BillNo\t\\n, T1.VoidInstance\t\\n, T1.PrintDate\t\\n, Convert(Varchar(8), T1.PrintTime,108) as PrintTime\t\\n, T1.Printer\t\\n, T1.PrintedAmount\t\\n, T1.CreatedDate\t\\n, T1.CreatedBy\t\\n, T1.IsVoid\t\\n, T1.PrintReasonCode\t\\n, T1.PrintReasonDescription\t\\n, T1.IsNcBill\t\\n, T1.OptionNeumonic\\n, t5.PaymentModeCode\\n, isnull(t4.SettleDate,\\'1900-01-01\\') SettleDate\\n, isnull(t4.SettleTime,\\'00:00:00\\') SettleTime\\n, isnull(t4.BillSettledBy,\\'\\') BillSettledBy\\n, isnull(t4.BillDateTime,\\'1900-01-01\\') BillDateTime\\n, T5.CollectionAmount\\n, IsNull(T7.BillNo,\\'\\') as LinkBillNo\\n, IsNull(T7.BillDateTime,\\'1900-01-01\\') as LinkBillDate\\n, Convert(Varchar(8), T7.BillTime,108) as LinkBillTime\\n, IsNull(T7.TableRoomCode,\\'\\') as TableNo\\nFrom QFile.tblBillOrderPrint T1 with(nolock)\\nLeft Outer Join QFile.tblBillOrderHead t4 with(nolock)  on T1.BillNo = T4.BillNo and T1.PosCode = T4.PosCode and t4.BillOrder = \\'B\\'\\nLeft Outer Join QFile.tblBillCollection t5 with(nolock)  on T1.BillNo =T5.BillNo and T1.PosCode = T5.PosCode\\nLeft Outer Join QFile.tblBillOrderLink T6 with(nolock)  on T1.BillNo =T6.KOTNo and T1.PosCode = T6.PosCode\\nLeft Outer Join QFile.tblBillOrderHead T7 with(nolock) on t6.KOTNo = T7.BillNo and T6.POSCode = T7.POSCode and t7.BillOrder = \\'K\\'\\n',\n\tformat: 'query') ~> dsbillorderprint\ndsbillorderprint alterRow(insertIf(true())) ~> arbillorderprint\narbillorderprint sink(input(\n\t\tDimBillOrderPrintId as integer,\n\t\tPOSCode as string,\n\t\tPropertyCode as integer,\n\t\tRegionCode as integer,\n\t\tBrandCode as integer,\n\t\tCountryCode as integer,\n\t\tBillOrder as string,\n\t\tBillNo as string,\n\t\tVoidInstance as integer,\n\t\tPrintDate as timestamp,\n\t\tPrintTime as string,\n\t\tPrinter as string,\n\t\tPrintedAmount as decimal(18,8),\n\t\tCreatedDate as timestamp,\n\t\tCreatedBy as string,\n\t\tIsVoid as boolean,\n\t\tPrintReasonCode as integer,\n\t\tPrintReasonDescription as string,\n\t\tIsNcBill as boolean,\n\t\tOptionNeumonic as string,\n\t\tBillSettledBy as string,\n\t\tSettleDate as timestamp,\n\t\tSettleTime as string,\n\t\tBillDAteTime as timestamp,\n\t\tCollectionAmount as decimal(18,2),\n\t\tLinkBillNo as string,\n\t\tLinkBillDate as timestamp,\n\t\tPaymentModeCode as string,\n\t\tLinkBillTime as string,\n\t\tTableNo as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tmapColumn(\n\t\tPOSCode,\n\t\tPropertyCode,\n\t\tRegionCode,\n\t\tBrandCode,\n\t\tCountryCode,\n\t\tBillOrder,\n\t\tBillNo,\n\t\tVoidInstance,\n\t\tPrintDate,\n\t\tPrintTime,\n\t\tPrinter,\n\t\tPrintedAmount,\n\t\tCreatedDate,\n\t\tCreatedBy,\n\t\tIsVoid,\n\t\tPrintReasonCode,\n\t\tPrintReasonDescription,\n\t\tIsNcBill,\n\t\tOptionNeumonic,\n\t\tBillSettledBy,\n\t\tSettleDate,\n\t\tSettleTime,\n\t\tBillDAteTime = BillDateTime,\n\t\tCollectionAmount,\n\t\tLinkBillNo,\n\t\tLinkBillDate,\n\t\tPaymentModeCode,\n\t\tLinkBillTime,\n\t\tTableNo\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimBillOrderPrint"
+		}
+	}
+}

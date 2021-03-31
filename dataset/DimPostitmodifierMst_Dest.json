@@ -1,0 +1,39 @@
+{
+	"name": "DimPostitmodifierMst_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "PostitModifierMasterId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ModifierQtyCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ModifierQtyDescription",
+				"type": "varchar"
+			},
+			{
+				"name": "ModifierQtyValue",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "PostitModifierMaster"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

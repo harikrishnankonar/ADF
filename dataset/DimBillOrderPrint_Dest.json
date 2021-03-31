@@ -1,0 +1,162 @@
+{
+	"name": "DimBillOrderPrint_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "DimBillOrderPrintId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POSCode",
+				"type": "nchar"
+			},
+			{
+				"name": "PropertyCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "RegionCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BrandCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CountryCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BillOrder",
+				"type": "char"
+			},
+			{
+				"name": "BillNo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VoidInstance",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PrintDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "PrintTime",
+				"type": "varchar"
+			},
+			{
+				"name": "Printer",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PrintedAmount",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 8
+			},
+			{
+				"name": "CreatedDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "CreatedBy",
+				"type": "nchar"
+			},
+			{
+				"name": "IsVoid",
+				"type": "bit"
+			},
+			{
+				"name": "PrintReasonCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PrintReasonDescription",
+				"type": "varchar"
+			},
+			{
+				"name": "IsNcBill",
+				"type": "bit"
+			},
+			{
+				"name": "OptionNeumonic",
+				"type": "varchar"
+			},
+			{
+				"name": "BillSettledBy",
+				"type": "nchar"
+			},
+			{
+				"name": "SettleDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "SettleTime",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BillDAteTime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "CollectionAmount",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "LinkBillNo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LinkBillDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "PaymentModeCode",
+				"type": "char"
+			},
+			{
+				"name": "LinkBillTime",
+				"type": "varchar"
+			},
+			{
+				"name": "TableNo",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimBillOrderPrint"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

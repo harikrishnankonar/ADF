@@ -1,0 +1,31 @@
+{
+	"name": "dfViodBillKot",
+	"properties": {
+		"folder": {
+			"name": "POS Transaction"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsdwsourcedb",
+						"type": "DatasetReference"
+					},
+					"name": "dsDimViodBillKot"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimViodBillKot_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "Dimviodbillkot"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tGroupID as string,\n\t\tClientID as string,\n\t\tPoscode as string,\n\t\tBillNo as string,\n\t\tMadeTime as string,\n\t\tSettleTime as string,\n\t\tBillTime as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'select \\n\\'002\\' GroupID\\n,\\'000\\' ClientID \\n,Poscode \\n,BillNo \\n,Right(CONVERT(VARCHAR(20), BillDateTime, 22),11) as MadeTime\\n,Right(CONVERT(VARCHAR(20), SettleDate, 22),11) as SettleTime\\n,BillTime\\n from DimBillOrderVoidHead with(nolock)',\n\tformat: 'query') ~> dsDimViodBillKot\ndsDimViodBillKot sink(input(\n\t\tVoidBillKotID as integer,\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tPOSCode as string,\n\t\tBillNo as string,\n\t\tMadeTime as string,\n\t\tSettleTime as string,\n\t\tBillTime as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tmapColumn(\n\t\tGroupId = GroupID,\n\t\tClientId = ClientID,\n\t\tPOSCode = Poscode,\n\t\tBillNo,\n\t\tMadeTime,\n\t\tSettleTime,\n\t\tBillTime\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> Dimviodbillkot"
+		}
+	}
+}

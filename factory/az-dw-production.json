@@ -1,0 +1,9 @@
+{
+	"name": "az-dw-production",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "fcb4365f-acb1-4196-8786-532e2c9902b1",
+		"tenantId": "59ae0d3c-2b60-41e5-acf6-c606ec054cbe"
+	}
+}

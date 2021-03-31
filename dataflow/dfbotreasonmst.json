@@ -1,0 +1,35 @@
+{
+	"name": "dfbotreasonmst",
+	"properties": {
+		"folder": {
+			"name": "BOT Master"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsdwsbotourcedb",
+						"type": "DatasetReference"
+					},
+					"name": "dsbotreasonmst"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimReasonMst_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimReasonMst"
+				}
+			],
+			"transformations": [
+				{
+					"name": "arbotreasonmst"
+				}
+			],
+			"script": "source(output(\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tReasonId as integer,\n\t\tReason as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select \\'002\\'  as GroupId,\\'000\\' as ClientId ,ReasonId,Reason from tblbotreason  with(nolock) where AccountId =18',\n\tformat: 'query') ~> dsbotreasonmst\ndsbotreasonmst alterRow(upsertIf(true())) ~> arbotreasonmst\narbotreasonmst sink(input(\n\t\tDimReasonID as integer,\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tReasonID as integer,\n\t\tReason as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['ReasonID'],\n\tformat: 'table',\n\tmapColumn(\n\t\tGroupId,\n\t\tClientId,\n\t\tReasonID = ReasonId,\n\t\tReason\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimReasonMst"
+		}
+	}
+}

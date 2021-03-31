@@ -1,0 +1,48 @@
+{
+	"name": "DimBookingSource_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "DimBookingSourceID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BookingSourceId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BookingSourceName",
+				"type": "varchar"
+			},
+			{
+				"name": "InterfaceId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupId",
+				"type": "char"
+			},
+			{
+				"name": "ClientId",
+				"type": "char"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimBookingSource"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,35 @@
+{
+	"name": "dfbotmealstructure",
+	"properties": {
+		"folder": {
+			"name": "BOT Master"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsdwsbotourcedb",
+						"type": "DatasetReference"
+					},
+					"name": "dsbotmealstructuremst"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimMealStructure_Dest",
+						"type": "DatasetReference"
+					},
+					"name": "DimMealStructureMst"
+				}
+			],
+			"transformations": [
+				{
+					"name": "arbotmealstructuremst"
+				}
+			],
+			"script": "source(output(\n\t\tAccountID as integer,\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\trestaurantid as integer,\n\t\tMealStructureId as integer,\n\t\tMealStructure as string,\n\t\tDescription as string,\n\t\tOperationFromTime as decimal(4,2),\n\t\tOperationToTime as decimal(4,2),\n\t\tDefaultMealLength as decimal(4,2),\n\t\tMealSession as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'Select t3.AccountID,\\'002\\' as GroupId, \\'000\\' as ClientId,T1.restaurantid,MealStructureId, MealStructure, [Description], OperationFromTime, OperationToTime, DefaultMealLength,T2.SessionDesc as MealSession \\nfrom tblbotrestaurantmealstructure t1 with(nolock) \\nLeft Outer Join  TblBOTReservationSession t2  with(nolock) on t1.SessionId = t2.Id \\nLeft Outer Join tblFMRestaurant t3 with(nolock) on t1.restaurantid = T3.restaurantid\\nwhere t3.IsCloud =0 \\nand t3.AccountID = 18',\n\tformat: 'query') ~> dsbotmealstructuremst\ndsbotmealstructuremst alterRow(upsertIf(true())) ~> arbotmealstructuremst\narbotmealstructuremst sink(input(\n\t\tDimMealStructureID as integer,\n\t\tGroupId as string,\n\t\tClientId as string,\n\t\tMealStructureID as integer,\n\t\tMealStructure as string,\n\t\tDescription as string,\n\t\tOperationFromTime as decimal(5,2),\n\t\tOperationToTime as decimal(5,2),\n\t\tDefaultMealLength as decimal(5,2),\n\t\tMealSession as string,\n\t\trestaurantid as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['MealStructureID'],\n\tformat: 'table',\n\tmapColumn(\n\t\tGroupId,\n\t\tClientId,\n\t\tMealStructureID = MealStructureId,\n\t\tMealStructure,\n\t\tDescription,\n\t\tOperationFromTime,\n\t\tOperationToTime,\n\t\tDefaultMealLength,\n\t\tMealSession,\n\t\trestaurantid\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DimMealStructureMst"
+		}
+	}
+}

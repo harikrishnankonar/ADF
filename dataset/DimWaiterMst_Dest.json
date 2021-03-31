@@ -1,0 +1,38 @@
+{
+	"name": "DimWaiterMst_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "WaiterID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "EmployeeCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "WaiterName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PosCode",
+				"type": "char"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimWaiterMst"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

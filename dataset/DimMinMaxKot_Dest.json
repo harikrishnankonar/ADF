@@ -1,0 +1,68 @@
+{
+	"name": "DimMinMaxKot_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldwdataihcl",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "POS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "MinMaxKotID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POSCode",
+				"type": "nchar"
+			},
+			{
+				"name": "BillNo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BillDateTime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "MinKotNo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MinKotDateTime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "MaxKotNo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MaxKotDateTime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "GroupId",
+				"type": "varchar"
+			},
+			{
+				"name": "ClientId",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimMinMaxKot"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
